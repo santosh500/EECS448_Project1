@@ -151,6 +151,17 @@ function display_time(hours, mintues, seconds)
 		second_zero_display + seconds;
 }
 
+//Function To Display Popup
+function div_show() 
+{
+	document.getElementById('abc').style.display = "block";
+}
+//Function to Hide Popup
+function div_hide()
+{
+	document.getElementById('abc').style.display = "none";
+}
+
 //Set Time
 if (document.getElementById('12hr').checked) {
 	select_hour = document.getElementById("select_hour");
