@@ -150,3 +150,14 @@ function display_time(hours, mintues, seconds)
 		minute_zero_display + minutes + ":" + 
 		second_zero_display + seconds;
 }
+
+//Function To Display Popup
+function div_show() 
+{
+	document.getElementById('abc').style.display = "block";
+}
+//Function to Hide Popup
+function div_hide()
+{
+	document.getElementById('abc').style.display = "none";
+}
