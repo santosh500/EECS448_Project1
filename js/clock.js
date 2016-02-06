@@ -2,6 +2,9 @@ var sysTick = 0;
 var hours=12;
 var minutes=0;
 var seconds=0;
+var CTtoggle=0;
+var dayType;
+var clockType;
 
 setInterval(clock, 1000);
 
@@ -20,8 +23,44 @@ function clock()
 	
 	if(minutes == 60)
 	{
-		increment_hour();
-		reset_minutes();
+		if(CTtoggle==1)
+		{
+			if(hours==12)
+			{
+				hours=0;
+				reset_minutes();
+			}
+			increment_hour();
+			reset_minutes();
+			if(hours==12)
+			{
+				if(dayType=="am")
+				{
+					dayType=="pm";
+				}
+				else
+				{
+					dayType="am";
+				}
+			}
+		}
+		else
+		{
+			increment_hour();
+			reset_minutes();
+			if(hours < 24)
+			{
+			
+			}
+			else
+			{
+				dayType="am";
+				hours=0;
+				reset_minutes();
+			}
+					
+		}
+		
 	}
 	
 	if(hours == 24)
@@ -65,6 +104,23 @@ function reset_hours()
 function reset_sysTick()
 {
 	sysTick = 0;
+}
+
+function changeclock()
+{
+	clockType=prompt("give 12 or 24 hours");
+	if(clockType==12)
+	{
+		CTtoggle=1;
+		changeday();
+	}
+			
+}
+
+
+function changeday()
+{
+	dayType=prompt("give am/pm");
 }
 
 function display_time(hours, mintues, seconds)
@@ -197,15 +253,3 @@ for(var i=0; i<=59; i++) {
 	select_second.add(new Option(i));
     
 };
-
-function input_hour() {
-    hours = document.getElementById("select_hour").value;
-}
-
-function input_minute() {
-    minutes = document.getElementById("select_minute").value;
-}
-
-function input_second() {
-    seconds = document.getElementById("select_second").value;
-}
