@@ -244,7 +244,7 @@ for(var i=0; i<=59; i++) {
     
 	select_minute.add(new Option(i));
     
-};
+}
 
 select_second = document.getElementById("select_second");
 
@@ -252,4 +252,17 @@ for(var i=0; i<=59; i++) {
     
 	select_second.add(new Option(i));
     
-};
+}
+
+//Set time functions from pop up window
+function input_hour() {
+    hours = document.getElementById("select_hour").value;
+}
+
+function input_minute() {
+    minutes = document.getElementById("select_minute").value;
+}
+
+function input_second() {
+    seconds = document.getElementById("select_second").value;
+}
