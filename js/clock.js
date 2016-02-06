@@ -111,3 +111,42 @@ function reset_time(new_hours, new_seconds, new_minutes)
 	seconds=new_seconds;
 	minutes=new_minutes;	
 }	
+
+function display_time(hours, mintues, seconds)
+{
+	var second_zero_display;
+	var minute_zero_display;
+	var hour_zero_display;
+	
+	if(seconds < 10)
+	{
+		second_zero_display = "0";
+	}
+	else
+	{
+		second_zero_display = "";
+	}
+    
+	if(minutes < 10)
+	{
+		minute_zero_display = "0";
+	}
+	else
+	{
+		minute_zero_display = "";
+	}
+	
+	if(hours < 10)
+	{
+		hour_zero_display = "0";
+	}
+	else
+	{
+		hour_zero_display = "";
+	}
+	
+	document.getElementById("full-time").innerHTML= 
+		hour_zero_display 	+ hours + ":" + 
+		minute_zero_display + minutes + ":" + 
+		second_zero_display + seconds;
+}
