@@ -198,19 +198,3 @@ for(var i=0; i<=59; i++) {
 	select_second.add(new Option(i));
     
 };
-
-function keyDown(e)
-{
-  var code= e.keyCode ? e.keyCode: e.which;
-  if(KEY_CODES[code]){
-    KEY_STAT[KEY_CODES[code]]=true;
-
-  }
-}
-function keyUp(e)
-{
-  var code= e.keyCode ? e.keyCode: e.which; // figures out which key was pushed and compares
-  if(KEY_CODES[code]){
-    KEY_STAT[KEY_CODES[code]]=false;
-  }
-}
