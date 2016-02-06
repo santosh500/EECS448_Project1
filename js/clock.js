@@ -151,13 +151,38 @@ function display_time(hours, mintues, seconds)
 		second_zero_display + seconds;
 }
 
-//Function To Display Popup
-function div_show() 
-{
-	document.getElementById('abc').style.display = "block";
+//Set Time
+if (document.getElementById('12hr').checked) {
+	select_hour = document.getElementById("select_hour");
+	for(var i=0; i<=12; i++) {
+	    
+		select_hour.add(new Option(i));
+	    
+	}
 }
-//Function to Hide Popup
-function div_hide()
-{
-	document.getElementById('abc').style.display = "none";
+
+if (document.getElementById('24hr').checked) {
+	select_hour = document.getElementById("select_hour");
+	for(var i=0; i<=23; i++) {
+	    
+		select_hour.add(new Option(i));
+	    
+	}
 }
+
+
+select_minute = document.getElementById("select_minute");
+
+for(var i=0; i<=59; i++) {
+    
+	select_minute.add(new Option(i));
+    
+};
+
+select_second = document.getElementById("select_second");
+
+for(var i=0; i<=59; i++) {
+    
+	select_second.add(new Option(i));
+    
+};
