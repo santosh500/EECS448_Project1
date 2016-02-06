@@ -197,3 +197,15 @@ for(var i=0; i<=59; i++) {
 	select_second.add(new Option(i));
     
 };
+
+function input_hour() {
+    hours = document.getElementById("select_hour").value;
+}
+
+function input_minute() {
+    minutes = document.getElementById("select_minute").value;
+}
+
+function input_second() {
+    seconds = document.getElementById("select_second").value;
+}
