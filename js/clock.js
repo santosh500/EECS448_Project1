@@ -101,3 +101,13 @@ function display_time(hours, mintues, seconds)
 	}
 	
 }
+
+function reset_time(new_hours, new_seconds, new_minutes)
+{
+	reset_hours();
+	reset_minutes();
+	reset_seconds();
+	hours=new_hours;
+	seconds=new_seconds;
+	minutes=new_minutes;	
+}	
