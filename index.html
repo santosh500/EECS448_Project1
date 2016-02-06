@@ -27,6 +27,33 @@
 				
 			</div>
 		</div>
+
+		<script type="text/javascript" src="js/clock.js"></script>
+		
+		<div id="abc">
+		<!-- Popup Div Starts Here -->
+			<div id="popup_set_time">
+				
+				<form action="#" id="form" method="post" name="form">
+				<img id="close" src="img/close_btn.png" onclick ="div_hide()">
+				<p>
+				<input id="12hr" type="radio" checked="checked" name="colors">12 Hr
+				<input id="24hr" type="radio" name="colors">24 Hr
+				</p>
+				<p>
+				<select id="select_hour"></select>
+				
+				<select id="select_minute"></select>
+				
+				<select id="select_second"></select>
+					
+				<input type="submit" value="Set Time">
+				</p>
+				</form>
+			</div>
+			<!-- Popup Div Ends Here -->
+		</div>
+		
 		<script type="text/javascript" src="js/clock.js"></script>
 	</body>
 </html>
