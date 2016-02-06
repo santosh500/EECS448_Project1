@@ -66,3 +66,38 @@ function reset_sysTick()
 {
 	sysTick = 0;
 }
+
+function display_time(hours, mintues, seconds)
+{
+	var second_zero_display;
+	var minute_zero_display;
+	var hour_zero_display;
+	
+	if(seconds < 10)
+	{
+		second_zero_display = "0";
+	}
+	else
+	{
+		second_zero_display = "";
+	}
+    
+	if(minutes < 10)
+	{
+		minute_zero_display = "0";
+	}
+	else
+	{
+		minute_zero_display = "";
+	}
+	
+	if(hours < 10)
+	{
+		hour_zero_display = "0";
+	}
+	else
+	{
+		hour_zero_display = "";
+	}
+	
+}
