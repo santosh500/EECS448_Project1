@@ -1,5 +1,5 @@
 var sysTick = 0;
-var hours=12;
+var hours=0;
 var minutes=0;
 var seconds=0;
 var CTtoggle=0;
@@ -10,6 +10,7 @@ setInterval(clock, 1000);
 
 function clock()
 {
+	//Increment sysTick
 	sysTick++;
 
 	increment_second();
@@ -23,44 +24,8 @@ function clock()
 	
 	if(minutes == 60)
 	{
-		if(CTtoggle==1)
-		{
-			if(hours==12)
-			{
-				hours=0;
-				reset_minutes();
-			}
-			increment_hour();
-			reset_minutes();
-			if(hours==12)
-			{
-				if(dayType=="am")
-				{
-					dayType=="pm";
-				}
-				else
-				{
-					dayType="am";
-				}
-			}
-		}
-		else
-		{
-			increment_hour();
-			reset_minutes();
-			if(hours < 24)
-			{
-			
-			}
-			else
-			{
-				dayType="am";
-				hours=0;
-				reset_minutes();
-			}
-					
-		}
-		
+		increment_hour();
+		reset_minutes();
 	}
 	
 	if(hours == 24)
@@ -68,8 +33,114 @@ function clock()
 		reset_hours();
 	}
 
-	display_time(hours, minutes, seconds);
+	if(document.getElementById('display_12hr').checked)
+	{
+		display_12hr_time(hours, minutes, seconds);
+	}
+	else
+	{
+		display_24hr_time(hours, minutes, seconds);
+	}
+	
 }
+
+function increment_second()
+{
+	seconds++;
+}
+
+function reset_seconds()
+{
+	seconds=0;
+}
+
+function increment_minute()
+{
+	minutes++;
+}
+
+function reset_minutes()
+{
+	minutes=0;
+}
+
+function increment_hour()
+{
+	hours++;
+}
+
+function reset_hours()
+{
+	hours=0;
+}
+
+function reset_sysTick()
+{
+	sysTick = 0;
+}
+
+//function clock()
+//{
+//	sysTick++;
+//
+//	increment_second();
+//	
+//	if((sysTick % 60) == 0)
+//	{
+//		increment_minute();
+//		reset_seconds();
+//		reset_sysTick();
+//	}
+//	
+//	if(minutes == 60)
+//	{
+//		if(CTtoggle==1)
+//		{
+//			if(hours==12)
+//			{
+//				hours=0;
+//				reset_minutes();
+//			}
+//			increment_hour();
+//			reset_minutes();
+//			if(hours==12)
+//			{
+//				if(dayType=="am")
+//				{
+//					dayType=="pm";
+//				}
+//				else
+//				{
+//					dayType="am";
+//				}
+//			}
+//		}
+//		else
+//		{
+//			increment_hour();
+//			reset_minutes();
+//			if(hours < 24)
+//			{
+//			
+//			}
+//			else
+//			{
+//				dayType="am";
+//				hours=0;
+//				reset_minutes();
+//			}
+//					
+//		}
+//		
+//	}
+//	
+//	if(hours == 24)
+//	{
+//		reset_hours();
+//	}
+//
+//	display_time(hours, minutes, seconds);
+//}
 
 function increment_second()
 {
@@ -123,11 +194,28 @@ function changeday()
 	dayType=prompt("give am/pm");
 }
 
-function display_time(hours, mintues, seconds)
+function display_12hr_time(hours, mintues, seconds)
 {
 	var second_zero_display;
 	var minute_zero_display;
 	var hour_zero_display;
+
+	if (hours == 0)
+	{
+		document.getElementById("am_pm").innerHTML= "AM";
+		hours = 12;
+	}
+	
+	if (hours < 12)
+	{
+		document.getElementById("am_pm").innerHTML= "AM";
+	}
+	
+	if (hours > 12)
+	{
+		document.getElementById("am_pm").innerHTML= "PM";
+		hours = hours % 12;
+	}
 	
 	if(seconds < 10)
 	{
@@ -156,19 +244,13 @@ function display_time(hours, mintues, seconds)
 		hour_zero_display = "";
 	}
 	
+	document.getElementById("full-time").innerHTML= 
+		hour_zero_display 	+ hours + ":" + 
+		minute_zero_display + minutes + ":" + 
+		second_zero_display + seconds;
 }
 
-function reset_time(new_hours, new_seconds, new_minutes)
-{
-	reset_hours();
-	reset_minutes();
-	reset_seconds();
-	hours=new_hours;
-	seconds=new_seconds;
-	minutes=new_minutes;	
-}	
-
-function display_time(hours, mintues, seconds)
+function display_24hr_time(hours, mintues, seconds)
 {
 	var second_zero_display;
 	var minute_zero_display;
@@ -205,7 +287,19 @@ function display_time(hours, mintues, seconds)
 		hour_zero_display 	+ hours + ":" + 
 		minute_zero_display + minutes + ":" + 
 		second_zero_display + seconds;
+	
+	document.getElementById("am_pm").innerHTML= "";
 }
+
+function reset_time(new_hours, new_seconds, new_minutes)
+{
+	reset_hours();
+	reset_minutes();
+	reset_seconds();
+	hours=new_hours;
+	seconds=new_seconds;
+	minutes=new_minutes;	
+}	
 
 //Function To Display Popup
 function div_show() 
@@ -218,41 +312,20 @@ function div_hide()
 	document.getElementById('abc').style.display = "none";
 }
 
-//Set Time
-if (document.getElementById('12hr').checked) {
-	select_hour = document.getElementById("select_hour");
-	for(var i=0; i<=12; i++) {
-	    
-		select_hour.add(new Option(i));
-	    
-	}
-}
+var select_hour = document.getElementById("select_hour");
+for(var i=0; i<=23; i++) {   
+	select_hour.add(new Option(i));
+};
 
-if (document.getElementById('24hr').checked) {
-	select_hour = document.getElementById("select_hour");
-	for(var i=0; i<=23; i++) {
-	    
-		select_hour.add(new Option(i));
-	    
-	}
-}
-
-
-select_minute = document.getElementById("select_minute");
-
+var select_minute = document.getElementById("select_minute");
 for(var i=0; i<=59; i++) {
-    
 	select_minute.add(new Option(i));
-    
-}
+};
 
-select_second = document.getElementById("select_second");
-
+var select_second = document.getElementById("select_second");
 for(var i=0; i<=59; i++) {
-    
 	select_second.add(new Option(i));
-    
-}
+};
 
 //Set time functions from pop up window
 function input_hour() {
@@ -266,3 +339,62 @@ function input_minute() {
 function input_second() {
     seconds = document.getElementById("select_second").value;
 }
+
+document.getElementById('display_12hr').addEventListener('click', function(){
+	document.getElementById('display_12hr').checked = true;
+	document.getElementById('display_24hr').checked = false;
+	
+	document.getElementById('set_time_12hr').checked = true;
+	document.getElementById('set_time_24hr').checked = false;
+});
+
+document.getElementById('display_24hr').addEventListener('click', function(){
+	document.getElementById('display_12hr').checked = false;
+	document.getElementById('display_24hr').checked = true;
+	
+	document.getElementById('set_time_12hr').checked = false;
+	document.getElementById('set_time_24hr').checked = true;
+});
+
+////Set Time
+//document.getElementById('set_time_12hr').addEventListener('click', function(){
+//	
+//	document.getElementById('display_12hr').checked = true;
+//	document.getElementById('display_24hr').checked = false;
+//	
+//	document.getElementById('set_time_12hr').checked = true;
+//	document.getElementById('set_time_24hr').checked = false
+//	
+//	var select_hour = document.getElementById("select_hour");
+//	
+//	var length = select_hour.options.length;
+//	
+//	for (i = 0; i < length; i++) {
+//		select_hour.remove(i);
+//	}
+//	
+//	for(var i=0; i<=12; i++) {
+//		select_hour.add(new Option(i));
+//	}
+//});
+//
+//document.getElementById('set_time_24hr').addEventListener('click', function(){
+//
+//	document.getElementById('display_12hr').checked = false;
+//	document.getElementById('display_24hr').checked = true;
+//	
+//	document.getElementById('set_time_12hr').checked = false;
+//	document.getElementById('set_time_24hr').checked = true;
+//	
+//	var select_hour = document.getElementById("select_hour");
+//	
+//	var length = select_hour.options.length;
+//	
+//	for (i = 0; i < length; i++) {
+//		select_hour.remove(i);
+//	}
+//	
+//	for(var i=0; i<=23; i++) {
+//		select_hour.add(new Option(i)); 
+//	}
+//});
