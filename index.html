@@ -9,8 +9,8 @@
 		<div class="outer-div">
 			<div class="inner-div">
 			
-			<div id="full-time"></div>
-			<div id="ampm">am</div>	
+			<span id="full-time"></span>
+			<span id="am_pm"></span>	
 				
 			</div>
 		</div>
@@ -19,8 +19,8 @@
 			
 				<div id="clock_mode">
 					<form>
-					  <input type="radio" name="colors" id="red" checked="checked">12 Hr 
-					  <input type="radio" name="colors" id="blue">24 Hr
+					  <input type="radio" name="colors" id="display_12hr" checked="checked">12 Hr 
+					  <input type="radio" name="colors" id="display_24hr">24 Hr
 					</form>
 				</div>
 				<div id="set_time">
@@ -39,8 +39,8 @@
 				<form action="#" id="form" method="post" name="form">
 				<img id="close" src="img/close_btn.png" onclick ="div_hide()">
 				<p>
-				<input id="12hr" type="radio" checked="checked" name="colors" onclick="alert('12');">12 Hr
-				<input id="24hr" type="radio" name="colors" onclick="alert('24');">24 Hr
+				<input id="set_time_12hr" type="radio" name="set_time_mode">12 Hr
+				<input id="set_time_24hr" type="radio" name="set_time_mode">24 Hr
 				</p>
 				<p>
 				<select id="select_hour" onchange="input_hour()"></select>
