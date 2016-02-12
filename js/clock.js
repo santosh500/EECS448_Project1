@@ -79,18 +79,6 @@ function reset_sysTick()
 	sysTick = 0;
 }
 
-function changeclock()
-{
-	clockType=prompt("give 12 or 24 hours");
-	if(clockType==12)
-	{
-		CTtoggle=1;
-		changeday();
-	}
-			
-}
-
-
 function changeday()
 {
 	dayType=prompt("give am/pm");
