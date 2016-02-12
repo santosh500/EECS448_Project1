@@ -1,25 +1,20 @@
-var sysTick = 0;
+
+//global variables to keep tack of time
 var hours=0;
 var minutes=0;
 var seconds=0;
-var CTtoggle=0;
-var dayType;
-var clockType;
+
 
 setInterval(clock, 1000);
 
 function clock()
 {
-	//Increment sysTick
-	sysTick++;
-
 	increment_second();
 	
-	if((sysTick % 60) == 0)
+	if((seconds % 60) == 0)
 	{
 		increment_minute();
 		reset_seconds();
-		reset_sysTick();
 	}
 	
 	if(minutes == 60)
@@ -41,7 +36,6 @@ function clock()
 	{
 		display_24hr_time(hours, minutes, seconds);
 	}
-	
 }
 
 function increment_second()
@@ -79,10 +73,7 @@ function reset_sysTick()
 	sysTick = 0;
 }
 
-function changeday()
-{
-	dayType=prompt("give am/pm");
-}
+
 
 function display_12hr_time(hours, mintues, seconds)
 {
@@ -234,12 +225,22 @@ document.getElementById('display_12hr').addEventListener('click', function(){
 	document.getElementById('display_12hr').checked = true;
 	document.getElementById('display_24hr').checked = false;
 	
+<<<<<<< HEAD
+	document.getElementById('set_time_12hr').checked = true;
+	document.getElementById('set_time_24hr').checked = false;
+=======
+>>>>>>> 4bbd8269ed5df2c310d7e5c0f513e75aea2482bd
 });
 
 document.getElementById('display_24hr').addEventListener('click', function(){
 	document.getElementById('display_12hr').checked = false;
 	document.getElementById('display_24hr').checked = true;
 	
+<<<<<<< HEAD
+	document.getElementById('set_time_12hr').checked = false;
+	document.getElementById('set_time_24hr').checked = true;
+=======
+>>>>>>> 4bbd8269ed5df2c310d7e5c0f513e75aea2482bd
 });
 
 //set time functions
