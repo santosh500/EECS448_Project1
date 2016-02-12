@@ -328,3 +328,9 @@ document.getElementById('set_time').addEventListener('click', function() {
 	//Reset the time display's display property after flashing is stopped
 	document.getElementById("time").style.display = '';
 });
+
+//flashing text
+var flashing_text = document.getElementById("time");
+flashing_handle = setInterval(function() {
+	flashing_text.style.display = (flashing_text.style.display == 'none' ? '' : 'none');
+}, 500);
