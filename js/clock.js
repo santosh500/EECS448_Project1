@@ -38,36 +38,79 @@ function clock()
 	}
 }
 
+/**
+ * Increment seconds variable by 1 to keep track of time          (1)
+ * <p>
+ * @param  none                                                   (3)
+ * @return none
+ */
+public int methodName (...) {
 function increment_second()
 {
 	seconds++;
 }
-
+/**
+ * Reset Seconds to zero                                          (1)
+ * <p>
+ * This function is called when the seconds reach 59 seconds. The next value is 60 which corresponds to zero (2)
+ * <p>
+ * @param  none                                                   (3)
+ * @return none
+ */
 function reset_seconds()
 {
 	seconds=0;
 }
+
+/**
+ * Increment minutes variable by 1 to keep track of time            (1)
+ * <p>
+ * This function is called when the variables seconds reaches 60    (2)
+ * <p>
+ * @param  none                                                     (3)
+ * @return none
+ */
 
 function increment_minute()
 {
 	minutes++;
 }
 
+/**
+ * Reset minutes to zero        (1)
+ * <p>
+ * This function is called when the minutes reach 59 minutes. The next value is 60 which corresponds to zero   (2)
+ * <p>
+ * @param  none                                                     (3)
+ * @return none
+ */
 function reset_minutes()
 {
 	minutes=0;
 }
 
+/**
+ * Increment Hours by 1 when it reaches 24       (1)
+ * <p>
+ * @param  none                                                     (3)
+ * @return none
+ */
 function increment_hour()
 {
 	hours++;
 }
-
+/**
+ * Reset Hours to Zero    (1)
+ * <p>
+ * This function is called when the hours reach 24. The next value is 0 which corresponds to zero   (2)
+ * <p>
+ * @param  none                                                     (3)
+ * @return none
+ */
 function reset_hours()
 {
 	hours=0;
 }
-
 //clock time display functions 12hr/24hr
 function display_12hr_time(hours, mintues, seconds)
 {
