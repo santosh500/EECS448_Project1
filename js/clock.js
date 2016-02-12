@@ -193,20 +193,64 @@ function div_hide()
 	document.getElementById('abc').style.display = "none";
 }
 
+//populate drop down options
 var select_hour = document.getElementById("select_hour");
-for(var i=0; i<=23; i++) {   
-	select_hour.add(new Option(i));
-};
+for(var i=1; i<=12; i++) {
+	if (i == 12){
+		var o12 = new Option(i);
+		o12.setAttribute("selected","selected");
+		select_hour.add(o12);
+	}
+	else
+	{
+		select_hour.add(new Option(i));
+	}
+}
 
 var select_minute = document.getElementById("select_minute");
-for(var i=0; i<=59; i++) {
-	select_minute.add(new Option(i));
-};
+for(var i=0; i<=59; i++) 
+{
+	if(i < 10)
+	{
+		if(i == 0)
+		{
+			var o1 = new Option(("0"+i));
+			o1.setAttribute("selected","selected");
+			select_minute.add(o1);
+		}
+		else
+		{
+			i = "0" + i;
+			select_minute.add(new Option(i));
+		}
+	}
+	else
+	{
+		select_minute.add(new Option(i));
+	}
+}
 
 var select_second = document.getElementById("select_second");
 for(var i=0; i<=59; i++) {
-	select_second.add(new Option(i));
-};
+	if(i < 10)
+	{
+		if(i == 0)
+		{
+			var o1 = new Option(("0"+i));
+			o1.setAttribute("selected","selected");
+			select_second.add(o1);
+		}
+		else
+		{
+			i = "0" + i;
+			select_second.add(new Option(i));
+		}
+	}
+	else
+	{
+		select_second.add(new Option(i));
+	}
+}
 
 //Set time functions from pop up window
 function input_hour() {
