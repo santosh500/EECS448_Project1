@@ -44,7 +44,6 @@ function clock()
  * @param  none                                                   (3)
  * @return none
  */
-public int methodName (...) {
 function increment_second()
 {
 	seconds++;
@@ -70,7 +69,6 @@ function reset_seconds()
  * @param  none                                                     (3)
  * @return none
  */
-
 function increment_minute()
 {
 	minutes++;
@@ -84,6 +82,7 @@ function increment_minute()
  * @param  none                                                     (3)
  * @return none
  */
+
 function reset_minutes()
 {
 	minutes=0;
@@ -95,10 +94,12 @@ function reset_minutes()
  * @param  none                                                     (3)
  * @return none
  */
+
 function increment_hour()
 {
 	hours++;
 }
+
 /**
  * Reset Hours to Zero    (1)
  * <p>
@@ -111,6 +112,7 @@ function reset_hours()
 {
 	hours=0;
 }
+
 //clock time display functions 12hr/24hr
 function display_12hr_time(hours, mintues, seconds)
 {
