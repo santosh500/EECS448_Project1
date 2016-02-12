@@ -3,57 +3,38 @@
 	<head>
 		<title>EECS 448 - Clock Project</title>
 		<link rel="stylesheet" href="css/main.css" >
-		<link rel="stylesheet" href="css/set_time.css" >
 	</head>
 	<body>
-		<div class="outer-div">
-			<div class="inner-div">
-			
-			<span id="full-time"></span>
-			<span id="am_pm"></span>	
-				
-			</div>
-		</div>
-		<div class="outer-div">
-			<div class="inner-div">
-			
-				<div id="clock_mode">
-					<form>
-					  <input type="radio" name="colors" id="display_12hr" checked="checked">12 Hr 
-					  <input type="radio" name="colors" id="display_24hr">24 Hr
-					</form>
-				</div>
-				<div id="set_time">
-					<button id="btn_set_time" onclick ="div_show();">Set Time</button>
-				</div>
-				
-			</div>
-		</div>
-
-		<div id="abc">
-		<!-- Popup Div Starts Here -->
-			<div id="popup_set_time">
-				
-				<form action="#" id="form" method="post" name="form">
-				<img id="close" src="img/close_btn.png" onclick ="div_hide()">
-				<p>
-				<input id="set_time_12hr" type="radio" name="set_time_mode">12 Hr
-				<input id="set_time_24hr" type="radio" name="set_time_mode">24 Hr
-				</p>
-				<p>
-				<select id="select_hour" onchange="input_hour()"></select>
-				
-				<select id="select_minute" onchange="input_minute()"></select>
-				
-				<select id="select_second" onchange="input_second()"></select>
-					
-				<input type="submit" value="Set Time">
-				</p>
-				</form>
-			</div>
-			<!-- Popup Div Ends Here -->
+	<!-- Main Dispaly -->	
+	<div id="main_display">
+	
+		<!-- Display Time -->
+		<div id="time_display">
+			<p id="time"><span id="full-time"></span><span id="am_pm"></span></p>
 		</div>
 		
+		<!--Display Time Controls -->
+		<div id="controls_display">	
+		
+			<!-- Select time mode -->
+			<div id="time_mode">
+				  <input type="radio" name="colors" id="display_12hr" checked="checked">12 Hr 
+				  <input type="radio" name="colors" id="display_24hr">24 Hr
+			</div>
+	
+			<!-- Set time -->
+			<div id="set_time_input">
+				<select id="select_hour"></select>
+				<select id="select_minute"></select>
+				<select id="select_second"></select>
+				<select id="select_am_pm">
+					<option value="am" selected="selected">AM</option>
+					<option value="pm">PM</option>	
+				</select>	
+				<button type="button" id="set_time">Set Time</button>
+			</div>
+		</div>
+	</div>
 		<script type="text/javascript" src="js/clock.js"></script>
 	</body>
 </html>
