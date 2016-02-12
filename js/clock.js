@@ -241,3 +241,55 @@ document.getElementById('display_24hr').addEventListener('click', function(){
 	document.getElementById('display_24hr').checked = true;
 	
 });
+
+//set time functions
+document.getElementById('set_time').addEventListener('click', function() {
+	//hours need to modify
+	var slected_hours = parseInt(document.getElementById("select_hour").value);
+	
+	//these are directly set
+	minutes = parseInt(document.getElementById("select_minute").value);
+	seconds = parseInt(document.getElementById("select_second").value);
+
+	//hours needs more work to get it display properly 
+	var am_pm   = document.getElementById("select_am_pm").value;
+	
+	if (am_pm == "am" && slected_hours == 12)
+	{
+		hours = 0;
+	} else if (am_pm == "am")
+	{
+		hours = slected_hours;
+	} else if (am_pm == "pm" && slected_hours == 12){
+		hours = 12;
+	} else if (am_pm == "pm")
+	{
+		hours = slected_hours + 12;
+	}
+	
+	//clear drop downs and set to default
+	var select_hour = document.getElementById("select_hour");
+	var length = select_hour.options.length;
+	for (i = 0; i < length; i++) {
+		select_hour[i].selected = select_hour[i].defaultSelected;
+	}
+	
+	var select_minute = document.getElementById("select_minute");
+	for(var i=0; i < select_minute.options.length; i++) {
+		select_minute[i].selected = select_minute[i].defaultSelected;
+	}
+
+	var select_second = document.getElementById("select_second");
+	for(var i=0; i < select_second.options.length; i++) {
+		select_second[i].selected = select_second[i].defaultSelected;
+	}
+	
+	var select_am_pm = document.getElementById("select_am_pm");
+	select_am_pm[0].selected = select_am_pm[0].defaultSelected;
+	
+	//stop flashing
+	clearInterval(flashing_handle);
+	
+	//Reset the time display's display property after flashing is stopped
+	document.getElementById("time").style.display = '';
+});
