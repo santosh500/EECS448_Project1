@@ -246,14 +246,10 @@ document.getElementById('display_12hr').addEventListener('click', function(){
 	document.getElementById('display_12hr').checked = true;
 	document.getElementById('display_24hr').checked = false;
 	
-	document.getElementById('set_time_12hr').checked = true;
-	document.getElementById('set_time_24hr').checked = false;
 });
 
 document.getElementById('display_24hr').addEventListener('click', function(){
 	document.getElementById('display_12hr').checked = false;
 	document.getElementById('display_24hr').checked = true;
 	
-	document.getElementById('set_time_12hr').checked = false;
-	document.getElementById('set_time_24hr').checked = true;
 });
