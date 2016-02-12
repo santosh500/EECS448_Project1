@@ -221,27 +221,17 @@ function input_second() {
     seconds = document.getElementById("select_second").value;
 }
 
+//Clock am/pm display functions
 document.getElementById('display_12hr').addEventListener('click', function(){
 	document.getElementById('display_12hr').checked = true;
 	document.getElementById('display_24hr').checked = false;
-	
-<<<<<<< HEAD
-	document.getElementById('set_time_12hr').checked = true;
-	document.getElementById('set_time_24hr').checked = false;
-=======
->>>>>>> 4bbd8269ed5df2c310d7e5c0f513e75aea2482bd
 });
 
 document.getElementById('display_24hr').addEventListener('click', function(){
 	document.getElementById('display_12hr').checked = false;
 	document.getElementById('display_24hr').checked = true;
-	
-<<<<<<< HEAD
-	document.getElementById('set_time_12hr').checked = false;
-	document.getElementById('set_time_24hr').checked = true;
-=======
->>>>>>> 4bbd8269ed5df2c310d7e5c0f513e75aea2482bd
 });
+
 
 //set time functions
 document.getElementById('set_time').addEventListener('click', function() {
