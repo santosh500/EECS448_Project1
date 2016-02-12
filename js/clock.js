@@ -182,17 +182,6 @@ function reset_time(new_hours, new_seconds, new_minutes)
 	minutes=new_minutes;	
 }	
 
-//Function To Display Popup
-function div_show() 
-{
-	document.getElementById('abc').style.display = "block";
-}
-//Function to Hide Popup
-function div_hide()
-{
-	document.getElementById('abc').style.display = "none";
-}
-
 //populate drop down options
 var select_hour = document.getElementById("select_hour");
 for(var i=1; i<=12; i++) {
