@@ -68,12 +68,6 @@ function reset_hours()
 	hours=0;
 }
 
-function reset_sysTick()
-{
-	sysTick = 0;
-}
-
-
 
 function display_12hr_time(hours, mintues, seconds)
 {
