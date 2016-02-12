@@ -1,12 +1,12 @@
-
-//global variables to keep tack of time
+//global variables to keep tack of time.
 var hours=0;
 var minutes=0;
 var seconds=0;
 
-
+//run the clock function every second.
 setInterval(clock, 1000);
 
+//clock running functions
 function clock()
 {
 	increment_second();
@@ -68,23 +68,20 @@ function reset_hours()
 	hours=0;
 }
 
-function reset_sysTick()
-{
-	sysTick = 0;
-}
-
-
-
+//clock time display functions 12hr/24hr
 function display_12hr_time(hours, mintues, seconds)
 {
+	//variables for display '0' in front of hours, minutes, seconds
 	var second_zero_display;
 	var minute_zero_display;
 	var hour_zero_display;
-
+	
+	var display_hours = hours;
+	
 	if (hours == 0)
 	{
 		document.getElementById("am_pm").innerHTML= "AM";
-		hours = 12;
+		display_hours = 12;
 	}
 	
 	if (hours < 12)
@@ -92,10 +89,15 @@ function display_12hr_time(hours, mintues, seconds)
 		document.getElementById("am_pm").innerHTML= "AM";
 	}
 	
+	if (hours == 12)
+	{
+		document.getElementById("am_pm").innerHTML= "PM";
+	}
+	
 	if (hours > 12)
 	{
 		document.getElementById("am_pm").innerHTML= "PM";
-		hours = hours % 12;
+		display_hours = hours % 12;
 	}
 	
 	if(seconds < 10)
@@ -116,7 +118,7 @@ function display_12hr_time(hours, mintues, seconds)
 		minute_zero_display = "";
 	}
 	
-	if(hours < 10)
+	if(display_hours < 10)
 	{
 		hour_zero_display = "0";
 	}
@@ -126,7 +128,7 @@ function display_12hr_time(hours, mintues, seconds)
 	}
 	
 	document.getElementById("full-time").innerHTML= 
-		hour_zero_display 	+ hours + ":" + 
+		hour_zero_display 	+ display_hours + ":" + 
 		minute_zero_display + minutes + ":" + 
 		second_zero_display + seconds;
 }
@@ -172,26 +174,17 @@ function display_24hr_time(hours, mintues, seconds)
 	document.getElementById("am_pm").innerHTML= "";
 }
 
-function reset_time(new_hours, new_seconds, new_minutes)
-{
-	reset_hours();
-	reset_minutes();
-	reset_seconds();
-	hours=new_hours;
-	seconds=new_seconds;
-	minutes=new_minutes;	
-}	
+//Clock am/pm display functions
+document.getElementById('display_12hr').addEventListener('click', function(){
+	document.getElementById('display_12hr').checked = true;
+	document.getElementById('display_24hr').checked = false;
+});
 
-//Function To Display Popup
-function div_show() 
-{
-	document.getElementById('abc').style.display = "block";
-}
-//Function to Hide Popup
-function div_hide()
-{
-	document.getElementById('abc').style.display = "none";
-}
+document.getElementById('display_24hr').addEventListener('click', function(){
+	document.getElementById('display_12hr').checked = false;
+	document.getElementById('display_24hr').checked = true;
+});
+
 
 //populate drop down options
 var select_hour = document.getElementById("select_hour");
@@ -206,7 +199,6 @@ for(var i=1; i<=12; i++) {
 		select_hour.add(new Option(i));
 	}
 }
-
 var select_minute = document.getElementById("select_minute");
 for(var i=0; i<=59; i++) 
 {
@@ -251,31 +243,6 @@ for(var i=0; i<=59; i++) {
 		select_second.add(new Option(i));
 	}
 }
-
-//Set time functions from pop up window
-function input_hour() {
-    hours = document.getElementById("select_hour").value;
-}
-
-function input_minute() {
-    minutes = document.getElementById("select_minute").value;
-}
-
-function input_second() {
-    seconds = document.getElementById("select_second").value;
-}
-
-//Clock am/pm display functions
-document.getElementById('display_12hr').addEventListener('click', function(){
-	document.getElementById('display_12hr').checked = true;
-	document.getElementById('display_24hr').checked = false;
-});
-
-document.getElementById('display_24hr').addEventListener('click', function(){
-	document.getElementById('display_12hr').checked = false;
-	document.getElementById('display_24hr').checked = true;
-});
-
 
 //set time functions
 document.getElementById('set_time').addEventListener('click', function() {
@@ -328,3 +295,9 @@ document.getElementById('set_time').addEventListener('click', function() {
 	//Reset the time display's display property after flashing is stopped
 	document.getElementById("time").style.display = '';
 });
+
+//flashing text
+var flashing_text = document.getElementById("time");
+flashing_handle = setInterval(function() {
+	flashing_text.style.display = (flashing_text.style.display == 'none' ? '' : 'none');
+}, 500);
