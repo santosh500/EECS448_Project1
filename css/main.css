@@ -9,69 +9,83 @@
     font-style: normal;
 
 }
-body
-{
-  padding: 30px;
-  background-color: #000000;
+
+body{
+	font-family: 'digital_dream_fatregular';
+	font-weight: bold;
+	color: #00FF00;
+	background-color: #000000;
 }
-.outer-div
-{
-  padding: 30px;
-  background-color: #000000;
-}
-.inner-div
-{
-  margin: 0 auto;
-  width: 710px;
-  height: 100px;
-  background-color: #000000;
-  color: #00FF00;
-  border-radius: 3px;
+div#main_display{
+	position: relative;
+	width: 800px;
+	margin: 0 auto;
 }
 
-div#full-time{
-	float: left;
-	width: 300px;
+div#time_display{
+	position: absolute;
+	width: 705px;
+	height: 150px;
+    top: 0;
+ 	left: 0;
+}
+
+div#controls_display{
+	position: absolute;
+	width: 705px;
+	height: 150px;
+    top: 153px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size:25px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+#full-time{
 	font-size: 100px;
-	font-family: 'digital_dream_fatregular';
-	font-weight: bold;
-	color: #00FF00;
-	width: 100px;
 }
 
-div#ampm{
-	float: right;
-	font-size: 24px;
-	font-family: 'digital_dream_fatregular';
-	font-weight: bold;
+#am_pm{
+	font-size: 25px;
+	
 }
 
-div#clock_mode{
-	float: left;
+div#time_mode{
+	width: 225px;
+	margin: 0 auto; 
+	border: 4px solid #00FF00;
+	border-radius: 10px;
+	padding: 10px;
+	margin-bottom: 20px; 
+	background-color: #383838;
 }
 
-div#set_time{
-	float: right;
+div#set_time_input{
+	
+	width: 500px;
+	margin: 0 auto; 
+	border: 4px solid #00FF00;
+	border-radius: 10px;
+	padding: 35px 10px 35px;
+	background-color: #383838;
 }
 
-div#clock_mode{
-	font-size: 24px;
-	font-family: 'Arial';
-	font-weight: bold;
-}
-
-#btn_set_time {
-	font-size: 24px;
+#set_time {
+	padding:5px 15px;
+    margin-left: 60px;
+    font-size: 24px;
 	border-radius: 50%;
-	font-family: 'Arial';
+	font-family: Verdana, Geneva, sans-serif;
 	color: #00FF00;
-    background-color: #404040 ;
+    background-color: #505050;
     border: 4px solid #00FF00; /* Green */
-    cursor:pointer
+    cursor:pointer;
 }
-	
-	
-div.set_time_input{
-	float: left;
+
+select{
+	padding:3px;
+	border-radius:5px;
+	cursor:pointer;
+	background-color: #C0C0C0;
 }
 	
