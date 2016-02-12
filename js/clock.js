@@ -71,14 +71,17 @@ function reset_hours()
 
 function display_12hr_time(hours, mintues, seconds)
 {
+	//variables for display '0' in front of hours, minutes, seconds
 	var second_zero_display;
 	var minute_zero_display;
 	var hour_zero_display;
-
+	
+	var display_hours = hours;
+	
 	if (hours == 0)
 	{
 		document.getElementById("am_pm").innerHTML= "AM";
-		hours = 12;
+		display_hours = 12;
 	}
 	
 	if (hours < 12)
@@ -86,10 +89,15 @@ function display_12hr_time(hours, mintues, seconds)
 		document.getElementById("am_pm").innerHTML= "AM";
 	}
 	
+	if (hours == 12)
+	{
+		document.getElementById("am_pm").innerHTML= "PM";
+	}
+	
 	if (hours > 12)
 	{
 		document.getElementById("am_pm").innerHTML= "PM";
-		hours = hours % 12;
+		display_hours = hours % 12;
 	}
 	
 	if(seconds < 10)
@@ -110,7 +118,7 @@ function display_12hr_time(hours, mintues, seconds)
 		minute_zero_display = "";
 	}
 	
-	if(hours < 10)
+	if(display_hours < 10)
 	{
 		hour_zero_display = "0";
 	}
@@ -120,7 +128,7 @@ function display_12hr_time(hours, mintues, seconds)
 	}
 	
 	document.getElementById("full-time").innerHTML= 
-		hour_zero_display 	+ hours + ":" + 
+		hour_zero_display 	+ display_hours + ":" + 
 		minute_zero_display + minutes + ":" + 
 		second_zero_display + seconds;
 }
