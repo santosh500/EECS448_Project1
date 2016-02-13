@@ -1,7 +1,7 @@
 /**
  * @author      Purna Doddapaneni
  * @author      Dilesh Fernando
- * @author      Paul Lastname
+ * @author      Paul Charles
  * @author      Brian Lee
  */
 //global variables to keep tack of time.
@@ -13,6 +13,21 @@ var seconds=0;
 setInterval(clock, 1000);
 
 //clock running functions
+/**
+ * Changes the time of the clock as well as displaying that time    (1)
+ * <p>
+ * The clock is operated by incrementing the seconds. This is a marker
+ * to increment the minutes when it reaches 60 seconds. The incrementation
+ * of the minutes allow for the incrementation of hours when 60 minutes are
+ * are reached. When each of the three time markers reach the incrementation
+ * limit, they are reset to 0. However, the hours are reset to a value 
+ * depending on the time mode selected. The display features depend on 
+ * the time mode selected and displays accordingly.
+ *															(2)
+ * <p>
+ * @param  none
+ *                                                       (3)
+ */
 function clock()
 {
 	increment_second();
