@@ -1,3 +1,9 @@
+/**
+ * @author      Purna Doddapaneni
+ * @author      Dilesh Fernando
+ * @author      Paul Lastname
+ * @author      Brian Lee
+ */
 //global variables to keep tack of time.
 var hours=0;
 var minutes=0;
@@ -41,6 +47,8 @@ function clock()
 /**
  * Increment seconds variable by 1 to keep track of time          (1)
  * <p>                                                 (3)
+ * @pre call from clock function
+ * @post seconds incremented by 1
  */
 function increment_second()
 {
@@ -51,6 +59,8 @@ function increment_second()
  * <p>
  * This function is called when the seconds reach 59 seconds. The next value is 60 which corresponds to zero (2)
  * <p>                                                 (3)
+ * @pre call from clock function
+ * @post seconds reset to zero
  */
 function reset_seconds()
 {
@@ -62,6 +72,8 @@ function reset_seconds()
  * <p>
  * This function is called when the variables seconds reaches 60    (2)
  * <p>                                                   (3)
+ * @pre call from clock function
+ * @post minutes incremented by 1
  */
 function increment_minute()
 {
@@ -72,7 +84,9 @@ function increment_minute()
  * Reset minutes to zero        (1)
  * <p>
  * This function is called when the minutes reach 59 minutes. The next value is 60 which corresponds to zero   (2)
- * <p>                                                     (3)
+ * <p>  
+ * @pre call from clock function
+ * @post minutes reset to zero                                                  (3)
  */
 
 function reset_minutes()
@@ -83,6 +97,8 @@ function reset_minutes()
 /**
  * Increment Hours by 1 when it reaches 24       (1)
  * <p>                                                     (3)
+ * @pre call from clock function
+ * @post hours incremented by 1
  */
 
 function increment_hour()
@@ -94,7 +110,9 @@ function increment_hour()
  * Reset Hours to Zero    (1)
  * <p>
  * This function is called when the hours reach 24. The next value is 0 which corresponds to zero   (2)
- * <p>                                                    (3)
+ * <p>           
+ * @pre call from clock function
+ * @post hours reset to zero                                       (3)
  */
 function reset_hours()
 {
@@ -233,6 +251,8 @@ function display_24hr_time(hours, mintues, seconds)
  * <p>
  * If the 12 hour mode is chosen, set 24 hour mode function to false
  * <p>
+ * @pre call when radio buttin is pushed
+ * @post changes display of clock to 12 hour mode
  */
 document.getElementById('display_12hr').addEventListener('click', function(){
 	document.getElementById('display_12hr').checked = true;
@@ -244,6 +264,8 @@ document.getElementById('display_12hr').addEventListener('click', function(){
  * <p>
  * If the 12 hour mode is chosen, set 24 hour mode function to true
  * <p>
+ * @pre call when radio buttin is pushed
+ * @post changes display of clock to 24 hour mode
  */
 document.getElementById('display_24hr').addEventListener('click', function(){
 	document.getElementById('display_12hr').checked = false;
@@ -255,6 +277,8 @@ document.getElementById('display_24hr').addEventListener('click', function(){
  * <p>
  * The list is first populated using a for loop. Based on the option chosen, the select_hour variable is assigned the value chosen.
  * <p>
+ * @pre drop down value changes
+ * @post select_hour updated to new user choice
  */
 var select_hour = document.getElementById("select_hour");
 for(var i=1; i<=12; i++) {
@@ -273,7 +297,8 @@ for(var i=1; i<=12; i++) {
  * <p>
  * The list is first populated using a for loop. Based on the option chosen, the select_minute variable is assigned the value chosen.
  * <p>
- * @param click
+ * @pre drop down value changes
+ * @post select_minute updated to new user choice
  */
 var select_minute = document.getElementById("select_minute");
 for(var i=0; i<=59; i++) 
@@ -303,7 +328,8 @@ for(var i=0; i<=59; i++)
  * <p>
  * The list is first populated using a for loop. Based on the option chosen, the select_second variable is assigned the value chosen.
  * <p>
- * @param click
+ * @pre drop down value changes
+ * @post select_second updated to new user choice
  */
 var select_second = document.getElementById("select_second");
 for(var i=0; i<=59; i++) {
@@ -331,7 +357,8 @@ for(var i=0; i<=59; i++) {
  * <p>
  * With the various fields with input, and the set time button event occuring, the time is set to the user desired time. The various feilds are cleared to their initial values and the flashing stops.
  * <p>
- * @param click
+ * @pre set time button pushed
+ * @post clock display update to new time
  */
 document.getElementById('set_time').addEventListener('click', function() {
 	//hours need to modify
