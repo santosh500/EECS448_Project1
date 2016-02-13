@@ -40,9 +40,7 @@ function clock()
 
 /**
  * Increment seconds variable by 1 to keep track of time          (1)
- * <p>
- * @param  none                                                   (3)
- * @return none
+ * <p>                                                 (3)
  */
 function increment_second()
 {
@@ -52,9 +50,7 @@ function increment_second()
  * Reset Seconds to zero                                          (1)
  * <p>
  * This function is called when the seconds reach 59 seconds. The next value is 60 which corresponds to zero (2)
- * <p>
- * @param  none                                                   (3)
- * @return none
+ * <p>                                                 (3)
  */
 function reset_seconds()
 {
@@ -65,9 +61,7 @@ function reset_seconds()
  * Increment minutes variable by 1 to keep track of time            (1)
  * <p>
  * This function is called when the variables seconds reaches 60    (2)
- * <p>
- * @param  none                                                     (3)
- * @return none
+ * <p>                                                   (3)
  */
 function increment_minute()
 {
@@ -78,9 +72,7 @@ function increment_minute()
  * Reset minutes to zero        (1)
  * <p>
  * This function is called when the minutes reach 59 minutes. The next value is 60 which corresponds to zero   (2)
- * <p>
- * @param  none                                                     (3)
- * @return none
+ * <p>                                                     (3)
  */
 
 function reset_minutes()
@@ -90,9 +82,7 @@ function reset_minutes()
 
 /**
  * Increment Hours by 1 when it reaches 24       (1)
- * <p>
- * @param  none                                                     (3)
- * @return none
+ * <p>                                                     (3)
  */
 
 function increment_hour()
@@ -104,16 +94,24 @@ function increment_hour()
  * Reset Hours to Zero    (1)
  * <p>
  * This function is called when the hours reach 24. The next value is 0 which corresponds to zero   (2)
- * <p>
- * @param  none                                                     (3)
- * @return none
+ * <p>                                                    (3)
  */
 function reset_hours()
 {
 	hours=0;
 }
-
-//clock time display functions 12hr/24hr
+/**
+ * Display the time in 12 hour mode    (1)
+ * <p>
+ * The function considers various scenarios based on the nature on the timing system to pick the correct display style.
+ * Formatting is also considered as the clock displays two digits for hours, minutes and time  
+ * The AM/PM value is evaluted based on what the hours global variable is reading at a specific time. The clock is in PM mode when hours are greater than 12 and AM mode when the hours are less than 12. (2)
+ * <p>
+ * @param  hours - Global variable keeping track of hours
+ * @param  minutes - Global variable keeping track of minutes
+ * @param  seconds - Global variable keeping track of seconds
+ *                                                       (3)
+ */
 function display_12hr_time(hours, mintues, seconds)
 {
 	//variables for display '0' in front of hours, minutes, seconds
@@ -178,6 +176,18 @@ function display_12hr_time(hours, mintues, seconds)
 		second_zero_display + seconds;
 }
 
+
+/**
+ * Display the time in 24 hour mode    (1)
+ * <p>
+ * The function considers various scenarios based on the nature on the timing system to pick the correct display style.
+ * Formatting is also considered as the clock displays two digits for hours, minutes and time  
+ * <p>
+ * @param  hours - Global variable keeping track of hours
+ * @param  minutes - Global variable keeping track of minutes
+ * @param  seconds - Global variable keeping track of seconds
+ *                                                       (3)
+ */
 function display_24hr_time(hours, mintues, seconds)
 {
 	var second_zero_display;
@@ -218,20 +228,34 @@ function display_24hr_time(hours, mintues, seconds)
 	
 	document.getElementById("am_pm").innerHTML= "";
 }
-
-//Clock am/pm display functions
+/**
+ * Waits for mouseclick event to see which radio button is selected for ClockMode  (1)
+ * <p>
+ * If the 12 hour mode is chosen, set 24 hour mode function to false
+ * <p>
+ */
 document.getElementById('display_12hr').addEventListener('click', function(){
 	document.getElementById('display_12hr').checked = true;
 	document.getElementById('display_24hr').checked = false;
 });
 
+/**
+ * Waits for mouseclick event to see which radio button is selected for ClockMode  (1)
+ * <p>
+ * If the 12 hour mode is chosen, set 24 hour mode function to true
+ * <p>
+ */
 document.getElementById('display_24hr').addEventListener('click', function(){
 	document.getElementById('display_12hr').checked = false;
 	document.getElementById('display_24hr').checked = true;
 });
 
-
-//populate drop down options
+/**
+ * Obtains the hours value when set time functionality is used 
+ * <p>
+ * The list is first populated using a for loop. Based on the option chosen, the select_hour variable is assigned the value chosen.
+ * <p>
+ */
 var select_hour = document.getElementById("select_hour");
 for(var i=1; i<=12; i++) {
 	if (i == 12){
@@ -244,6 +268,13 @@ for(var i=1; i<=12; i++) {
 		select_hour.add(new Option(i));
 	}
 }
+/**
+ * Obtains the minutes value when set time functionality is used 
+ * <p>
+ * The list is first populated using a for loop. Based on the option chosen, the select_minute variable is assigned the value chosen.
+ * <p>
+ * @param click
+ */
 var select_minute = document.getElementById("select_minute");
 for(var i=0; i<=59; i++) 
 {
@@ -267,6 +298,13 @@ for(var i=0; i<=59; i++)
 	}
 }
 
+/**
+ * Obtains the seconds value when set time functionality is used 
+ * <p>
+ * The list is first populated using a for loop. Based on the option chosen, the select_second variable is assigned the value chosen.
+ * <p>
+ * @param click
+ */
 var select_second = document.getElementById("select_second");
 for(var i=0; i<=59; i++) {
 	if(i < 10)
@@ -288,8 +326,13 @@ for(var i=0; i<=59; i++) {
 		select_second.add(new Option(i));
 	}
 }
-
-//set time functions
+/**
+ * Allows user to set desired time
+ * <p>
+ * With the various fields with input, and the set time button event occuring, the time is set to the user desired time. The various feilds are cleared to their initial values and the flashing stops.
+ * <p>
+ * @param click
+ */
 document.getElementById('set_time').addEventListener('click', function() {
 	//hours need to modify
 	var slected_hours = parseInt(document.getElementById("select_hour").value);
@@ -341,7 +384,10 @@ document.getElementById('set_time').addEventListener('click', function() {
 	document.getElementById("time").style.display = '';
 });
 
-//flashing text
+/**
+ * Make Time display flash until time has been set once.
+ * <p>
+ */
 var flashing_text = document.getElementById("time");
 flashing_handle = setInterval(function() {
 	flashing_text.style.display = (flashing_text.style.display == 'none' ? '' : 'none');
