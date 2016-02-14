@@ -2,7 +2,7 @@
  * @author      Purna Doddapaneni
  * @author      Dilesh Fernando
  * @author      Paul Charles
- * @author      Brian Lee
+ * @author      Cheng Yeh Lee
  */
 //global variables to keep tack of time.
 var hours=0;
