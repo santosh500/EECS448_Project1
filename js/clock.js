@@ -1,7 +1,7 @@
 /**
+ * @author      Paul Charles   
  * @author      Purna Doddapaneni
  * @author      Dilesh Fernando
- * @author      Paul Charles
  * @author      Brian Lee
  */
 //global variables to keep tack of time.
