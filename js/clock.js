@@ -472,7 +472,7 @@ function increment_day(){
 	}
 	else if (day == 30 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
 	{
-		month++;;
+		month++;
 		day = 1;
 	}
 	else if (day == 31)
@@ -622,7 +622,7 @@ function display_day()
 				case 31:
 					if (month == 4 && day == 31)
 					{
-						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date, reset date";
+						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date";
 					}
 					else
 					{
