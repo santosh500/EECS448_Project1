@@ -48,6 +48,7 @@ function clock()
 	if(hours == 24)
 	{
 		reset_hours();
+		increment_day();
 	}
 
 	if(document.getElementById('display_12hr').checked)
@@ -137,33 +138,6 @@ function increment_hour()
 function reset_hours()
 {
 	hours=0;
-	
-	if (day == 31 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
-	{	//do nothing
-	}
-	else if (month == 2 && day == 30)
-	{	//do nothing
-	}
-	else if (month == 12 && day == 31)
-	{
-		month = 1;
-		day = 1;
-	}
-	else if (day == 30 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
-	{
-		month++;;
-		day = 1;
-	}
-	else if (day == 31)
-	{
-		month++;
-		day = 1;
-	}
-	else
-	{
-		day++;
-	}
-	
 }
 /**
  * Display the time in 12 hour mode    (1)
@@ -471,9 +445,47 @@ flashing_handle = setInterval(function() {
 
 
 
-//MOSTLY working
-//Slow load time
-//Sometimes doesn't always work?? idk when or if i fixed it
+
+
+
+
+/**
+ * Increments day/month if applicable  (1)
+ * <p>
+ * This function is called when the hours reach 24. (2)
+ * <p>           
+ * @pre call from clock function
+ * @post increments day or month when applicable               (3)
+ */
+function increment_day(){
+	
+	if (day == 31 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
+	{	//do nothing
+	}
+	else if (month == 2 && day == 30)
+	{	//do nothing
+	}
+	else if (month == 12 && day == 31)
+	{
+		month = 1;
+		day = 1;
+	}
+	else if (day == 30 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
+	{
+		month++;;
+		day = 1;
+	}
+	else if (day == 31)
+	{
+		month++;
+		day = 1;
+	}
+	else
+	{
+		day++;
+	}
+
+}
 
 /**
  * Allows user to set desired day
