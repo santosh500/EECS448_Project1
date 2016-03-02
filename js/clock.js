@@ -58,6 +58,10 @@ function clock()
 	{
 		display_24hr_time(hours, minutes, seconds);
 	}
+	
+
+	//document.getElementById('set_date').addEventListener('click', display_day);
+	display_day();
 }
 
 /**
@@ -133,6 +137,33 @@ function increment_hour()
 function reset_hours()
 {
 	hours=0;
+	
+	if (day == 31 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
+	{	//do nothing
+	}
+	else if (month == 2 && day == 30)
+	{	//do nothing
+	}
+	else if (month == 12 && day == 31)
+	{
+		month = 1;
+		day = 1;
+	}
+	else if (day == 30 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
+	{
+		month++;;
+		day = 1;
+	}
+	else if (day == 31)
+	{
+		month++;
+		day = 1;
+	}
+	else
+	{
+		day++;
+	}
+	
 }
 /**
  * Display the time in 12 hour mode    (1)
@@ -435,3 +466,521 @@ var flashing_text = document.getElementById("time");
 flashing_handle = setInterval(function() {
 	flashing_text.style.display = (flashing_text.style.display == 'none' ? '' : 'none');
 }, 500);
+
+
+
+
+
+//MOSTLY working
+//Slow load time
+//Sometimes doesn't always work?? idk when or if i fixed it
+
+/**
+ * Allows user to set desired day
+ * <p>
+ * With the various fields with input, and the set time button event occuring, the time is set to the user desired time. The various feilds are cleared to their initial values and the flashing stops.
+ * <p>
+ * @pre set date button pushed
+ * @post day update to new day
+ */
+document.getElementById('set_date').addEventListener('click', function() {
+
+	month = parseInt(document.getElementById("select_month").value);
+	day = parseInt(document.getElementById("select_day").value);
+	
+	if (day == 31 || (day == 30 && month == 2))
+	{
+		if (month == 2 || month == 4 || month == 6 || month == 9 || month == 11)
+		{
+			var select_month = document.getElementById("select_month");
+			for(var i=1; i < select_month.options.length; i++) {
+				select_month[i].selected = select_month[i].defaultSelected;
+			}
+			var select_day = document.getElementById("select_day");
+			for(var i=1; i < select_day.options.length; i++) {
+				select_day[i].selected = select_day[i].defaultSelected;
+			}
+			document.getElementById("full-weekday").innerHTML= "Invalid date, reset date";
+			day = currentDate().getDate();
+			month = currentDate.getMonth()+1;
+		}
+	}
+	else 
+	{
+		selectedDay = day;
+		selectedMonth = month;
+	}
+	
+});
+
+/**
+ * Obtains the month and current month
+ * <p>
+ * The list is first populated using a for loop. Based on the option chosen, the select_month variable is assigned the value chosen.
+ * <p>
+ * @pre drop down value changes
+ * @post select_month updated to new user choice
+ */
+var selected_month = document.getElementById("select_month");
+var currentDate = new Date();
+var month = currentDate.getMonth()+1;
+var selectedMonth = month;
+for(var i=1; i<=12; i++) {
+	if (i == currentDate.getMonth()+1){
+		var o12 = new Option(i);
+		o12.setAttribute("selected","selected");
+		select_month.add(o12);
+	}
+	else
+	{
+		select_month.add(new Option(i));
+	}
+}
+/**
+ * Obtains the day and current day
+ * <p>
+ * The list is first populated using a for loop. Based on the option chosen, the select_day variable is assigned the value chosen.
+ * <p>
+ * @pre drop down value changes
+ * @post select_day updated to new user choice
+ */
+var selected_day = document.getElementById("select_day");
+var day = currentDate.getDate();
+var selectedDay = day;
+for(var i=1; i<=31; i++) {
+
+	if (i == currentDate.getDate()){
+		var o31 = new Option(i);
+		o31.setAttribute("selected","selected");
+		select_day.add(o31);
+	}
+	else
+	{
+		select_day.add(new Option(i));
+	}
+}
+
+/**
+ * Display the weekday    (1)
+ * <p>
+ * @param  day - Global variable keeping track of day
+ * @param  month - Global variable keeping track of month
+ *                                                       (2)
+ */
+function display_day()
+{	
+	for (i = 0; i < selected_day.options.length; i++) {
+		if (day != selectedDay) {
+			selected_day.selectedIndex = day-1;
+			selectedDay = day;
+		}	
+	}	
+	for (i = 0; i < selected_month.options.length; i++) {
+		if (month != selectedMonth) {
+			selected_month.selectedIndex = month-1;
+			selectedMonth = month;
+		}	
+	}
+
+	switch (month)
+	{
+		case 1: //January
+		case 4: //April
+		case 7: //July
+			switch (day)
+			{
+				case 1:
+				case 8:
+				case 15:
+				case 22:
+				case 29:
+					document.getElementById("full-weekday").innerHTML= "Friday";
+					break;
+				case 2:
+				case 9:
+				case 16:
+				case 23:
+				case 30:
+					document.getElementById("full-weekday").innerHTML= "Saturday";
+					break;
+				case 3:
+				case 10:
+				case 17:
+				case 24:
+				case 31:
+					if (month == 4 && day == 31)
+					{
+						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date, reset date";
+					}
+					else
+					{
+						document.getElementById("full-weekday").innerHTML= "Sunday";
+					}
+					break;
+				case 4:
+				case 11:
+				case 18:
+				case 25:
+					document.getElementById("full-weekday").innerHTML= "Monday";
+					break;
+				case 5:
+				case 12:
+				case 19:
+				case 26:
+					document.getElementById("full-weekday").innerHTML= "Tuesday";
+					break;
+				case 6:
+				case 13:
+				case 20:
+				case 27:
+					document.getElementById("full-weekday").innerHTML= "Wednesday";
+					break;	
+				case 7:
+				case 14:
+				case 21:
+				case 28:
+					document.getElementById("full-weekday").innerHTML= "Thursday";
+					break;
+			}
+			break;
+		case 2: //February
+		case 8: //August
+			switch (day)
+			{
+				case 1:
+				case 8:
+				case 15:
+				case 22:
+				case 29:
+					document.getElementById("full-weekday").innerHTML= "Monday";
+					break;
+				case 2:
+				case 9:
+				case 16:
+				case 23:
+				case 30:
+					if (month == 2 && day == 30)
+					{
+						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date";
+					}
+					else
+					{
+						document.getElementById("full-weekday").innerHTML= "Tuesday";
+					}
+					break;
+				case 3:
+				case 10:
+				case 17:
+				case 24:
+				case 31:
+					if (month == 2 && day == 31)
+					{
+						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date";
+					}
+					else
+					{
+						document.getElementById("full-weekday").innerHTML= "Wednesday";
+					}
+					break;
+				break;
+				case 4:
+				case 11:
+				case 18:
+				case 25:
+					document.getElementById("full-weekday").innerHTML= "Thursday";
+					break;
+				case 5:
+				case 12:
+				case 19:
+				case 26:
+					document.getElementById("full-weekday").innerHTML= "Friday";
+					break;
+				case 6:
+				case 13:
+				case 20:
+				case 27:
+					document.getElementById("full-weekday").innerHTML= "Saturday";
+					break;	
+				case 7:
+				case 14:
+				case 21:
+				case 28:
+					document.getElementById("full-weekday").innerHTML= "Sunday";
+					break;
+				}
+			break;
+		case 3: //March
+		case 11: //November
+			switch (day)
+			{
+				case 1:
+				case 8:
+				case 15:
+				case 22:
+				case 29:
+					document.getElementById("full-weekday").innerHTML= "Tuesday";
+					break;
+				case 2:
+				case 9:
+				case 16:
+				case 23:
+				case 30:
+					document.getElementById("full-weekday").innerHTML= "Wednesday";
+					break;
+				case 3:
+				case 10:
+				case 17:
+				case 24:
+				case 31:
+					if (month == 11 && day == 31)
+					{
+						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date";
+					}
+					else
+					{
+						document.getElementById("full-weekday").innerHTML= "Thursday";
+					}
+					break;
+				case 4:
+				case 11:
+				case 18:
+				case 25:
+					document.getElementById("full-weekday").innerHTML= "Friday";
+					break;
+				case 5:
+				case 12:
+				case 19:
+				case 26:
+					document.getElementById("full-weekday").innerHTML= "Saturday";
+					break;
+				case 6:
+				case 13:
+				case 20:
+				case 27:
+					document.getElementById("full-weekday").innerHTML= "Sunday";
+					break;	
+				case 7:
+				case 14:
+				case 21:
+				case 28:
+					document.getElementById("full-weekday").innerHTML= "Monday";
+					break;
+			}
+			break;
+		case 5: //May
+			switch (day)
+			{
+				case 1:
+				case 8:
+				case 15:
+				case 22:
+				case 29:
+					document.getElementById("full-weekday").innerHTML= "Sunday";
+					break;
+				case 2:
+				case 9:
+				case 16:
+				case 23:
+				case 30:
+					document.getElementById("full-weekday").innerHTML= "Monday";
+					break;
+				case 3:
+				case 10:
+				case 17:
+				case 24:
+				case 31:
+					document.getElementById("full-weekday").innerHTML= "Tuesday";
+					break;
+				case 4:
+				case 11:
+				case 18:
+				case 25:
+					document.getElementById("full-weekday").innerHTML= "Wednesday";
+					break;
+				case 5:
+				case 12:
+				case 19:
+				case 26:
+					document.getElementById("full-weekday").innerHTML= "Thursday";
+					break;
+				case 6:
+				case 13:
+				case 20:
+				case 27:
+					document.getElementById("full-weekday").innerHTML= "Friday";
+					break;	
+				case 7:
+				case 14:
+				case 21:
+				case 28:
+					document.getElementById("full-weekday").innerHTML= "Saturday";
+					break;
+			}
+			break;		
+		case 9: //September
+		case 12: //December
+			switch (day)
+			{
+				case 1:
+				case 8:
+				case 15:
+				case 22:
+				case 29:
+					document.getElementById("full-weekday").innerHTML= "Thursday";
+					break;
+				case 2:
+				case 9:
+				case 16:
+				case 23:
+				case 30:
+					document.getElementById("full-weekday").innerHTML= "Friday";
+					break;
+				case 3:
+				case 10:
+				case 17:
+				case 24:
+				case 31:
+					if (month == 9 && day == 31)
+					{
+						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date";
+					}
+					else
+					{
+						document.getElementById("full-weekday").innerHTML= "Saturday";
+					}
+					break;
+				case 4:
+				case 11:
+				case 18:
+				case 25:
+					document.getElementById("full-weekday").innerHTML= "Sunday";
+					break;
+				case 5:
+				case 12:
+				case 19:
+				case 26:
+					document.getElementById("full-weekday").innerHTML= "Monday";
+					break;
+				case 6:
+				case 13:
+				case 20:
+				case 27:
+					document.getElementById("full-weekday").innerHTML= "Tuesday";
+					break;	
+				case 7:
+				case 14:
+				case 21:
+				case 28:
+					document.getElementById("full-weekday").innerHTML= "Wednesday";
+					break;
+			}
+			break;	
+		case 6: //June
+			switch (day)
+			{
+				case 1:
+				case 8:
+				case 15:
+				case 22:
+				case 29:
+					document.getElementById("full-weekday").innerHTML= "Friday";
+					break;
+				case 2:
+				case 9:
+				case 16:
+				case 23:
+				case 30:
+					document.getElementById("full-weekday").innerHTML= "Saturday";
+					break;
+				case 3:
+				case 10:
+				case 17:
+				case 24:
+				//case 31:
+					if (day == 31 && month == 6)
+					{
+						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date";
+					}
+					else
+					{
+						document.getElementById("full-weekday").innerHTML= "Sunday";
+					}
+					break;
+				case 4:
+				case 11:
+				case 18:
+				case 25:
+					document.getElementById("full-weekday").innerHTML= "Monday";
+					break;
+				case 5:
+				case 12:
+				case 19:
+				case 26:
+					document.getElementById("full-weekday").innerHTML= "Tuesday";
+					break;
+				case 6:
+				case 13:
+				case 20:
+				case 27:
+					document.getElementById("full-weekday").innerHTML= "Wednesday";
+					break;	
+				case 7:
+				case 14:
+				case 21:
+				case 28:
+					document.getElementById("full-weekday").innerHTML= "Thursday";
+					break;
+			}
+			break;
+		case 10: //October
+			switch (day)
+			{
+				case 1:
+				case 8:
+				case 15:
+				case 22:
+				case 29:
+					document.getElementById("full-weekday").innerHTML= "Saturday";
+					break;
+				case 2:
+				case 9:
+				case 16:
+				case 23:
+				case 30:
+					document.getElementById("full-weekday").innerHTML= "Sunday";
+					break;
+				case 3:
+				case 10:
+				case 17:
+				case 24:
+				case 31:
+					document.getElementById("full-weekday").innerHTML= "Monday";
+					break;
+				case 4:
+				case 11:
+				case 18:
+				case 25:
+					document.getElementById("full-weekday").innerHTML= "Tuesday";
+					break;
+				case 5:
+				case 12:
+				case 19:
+				case 26:
+					document.getElementById("full-weekday").innerHTML= "Wednesday";
+					break;
+				case 6:
+				case 13:
+				case 20:
+				case 27:
+					document.getElementById("full-weekday").innerHTML= "Thursday";
+					break;	
+				case 7:
+				case 14:
+				case 21:
+				case 28:
+					document.getElementById("full-weekday").innerHTML= "Friday";
+					break;
+			}
+			break;
+	}
+}
