@@ -10,6 +10,9 @@ var hours=0;
 var minutes=0;
 var seconds=0;
 
+// Our variables
+var clockBegin = true;//fixes issue with starting at 1 second after the specified time
+
 //run the clock function every second.
 setInterval(clock, 1000);
 
@@ -31,12 +34,20 @@ setInterval(clock, 1000);
  */
 function clock()
 {
-	increment_second();
+	if(clockBegin){}//clock begins, make sure it doesn't increment a second immediately	
+	else
+	{	
+		increment_second();
+	}
 	
-	if((seconds % 60) == 0)
+	if((seconds % 60) == 0 && !clockBegin)
 	{
 		increment_minute();
 		reset_seconds();
+	}
+	else if(clockBegin)
+	{
+		clockBegin = false;
 	}
 	
 	if(minutes == 60)
@@ -404,6 +415,8 @@ document.getElementById('set_time').addEventListener('click', function() {
 	{
 		hours = slected_hours + 12;
 	}
+	
+	clockBegin = true;//clock begins again, make sure it doesn't increment a second immediately
 	
 	//clear drop downs and set to default
 	var select_hour = document.getElementById("select_hour");
