@@ -480,24 +480,24 @@ function increment_day(){
 	{
 		month = 1;
 		day = 1;
-		updateDate = true;
+		update_date = true;
 	}
 	else if (day == 30 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
 	{
 		month++;
 		day = 1;
-		updateDate = true;
+		update_date = true;
 	}
 	else if (day == 31)
 	{
 		month++;
 		day = 1;
-		updateDate = true;
+		update_date = true;
 	}
 	else
 	{
 		day++;
-		updateDate = true;
+		update_date = true;
 	}
 
 }
@@ -526,11 +526,10 @@ document.getElementById('set_date').addEventListener('click', function() {
  * @post select_month updated to new user choice
  */
 var selected_month = document.getElementById("select_month");
-var currentDate = new Date();
-var month = currentDate.getMonth()+1;
-var selectedMonth = month;
+var current_date = new Date();
+var month = current_date.getMonth()+1;
 for(var i=1; i<=12; i++) {
-	if (i == currentDate.getMonth()+1){
+	if (i == current_date.getMonth()+1){
 		var o12 = new Option(i);
 		o12.setAttribute("selected","selected");
 		select_month.add(o12);
@@ -549,11 +548,10 @@ for(var i=1; i<=12; i++) {
  * @post select_day updated to new user choice
  */
 var selected_day = document.getElementById("select_day");
-var day = currentDate.getDate();
-var selectedDay = day;
+var day = current_date.getDate();
 for(var i=1; i<=31; i++) {
 
-	if (i == currentDate.getDate()){
+	if (i == current_date.getDate()){
 		var o31 = new Option(i);
 		o31.setAttribute("selected","selected");
 		select_day.add(o31);
@@ -571,20 +569,20 @@ for(var i=1; i<=31; i++) {
  * @param  month - Global variable keeping track of month
  *                                                       (2)
  */
-var updateDate = false;
+var update_date = false;
 function display_day()
 {	
+	//puts the dropdown menu at the updated date (once a new day rolls over)
 	for (i = 0; i < selected_day.options.length; i++) {
-		if (updateDate) {
+		if (update_date) {
 			selected_day.selectedIndex = day-1;
 		}	
 	}
 	for (i = 0; i < selected_month.options.length; i++) {
-		if (updateDate) {
+		if (update_date) {
 			selected_month.selectedIndex = month-1;
-			updateDate = false;
+			update_date = false;
 		}	
-
 	}
 
 	//weekday update
