@@ -480,20 +480,24 @@ function increment_day(){
 	{
 		month = 1;
 		day = 1;
+		updateDate = true;
 	}
 	else if (day == 30 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
 	{
 		month++;
 		day = 1;
+		updateDate = true;
 	}
 	else if (day == 31)
 	{
 		month++;
 		day = 1;
+		updateDate = true;
 	}
 	else
 	{
 		day++;
+		updateDate = true;
 	}
 
 }
@@ -510,17 +514,7 @@ document.getElementById('set_date').addEventListener('click', function() {
 
 	month = parseInt(document.getElementById("select_month").value);
 	day = parseInt(document.getElementById("select_day").value);
-	
-	if (day == 31 || (day == 30 && month != 2))
-	{
-		if (month != 2 || month != 4 || month != 6 || month != 9 || month != 11)
-		{
-			//these variables are set to check for updated dates
-			selectedDay = day;
-			selectedMonth = month;
-		}
-	}
-	
+
 });
 
 /**
@@ -577,20 +571,20 @@ for(var i=1; i<=31; i++) {
  * @param  month - Global variable keeping track of month
  *                                                       (2)
  */
+var updateDate = false;
 function display_day()
 {	
-	//puts the dropdown menu at the updated date (once a new day rolls over)
 	for (i = 0; i < selected_day.options.length; i++) {
-		if (day != selectedDay) {
+		if (updateDate) {
 			selected_day.selectedIndex = day-1;
-			selectedDay = day;
 		}	
-	}	
+	}
 	for (i = 0; i < selected_month.options.length; i++) {
-		if (month != selectedMonth) {
+		if (updateDate) {
 			selected_month.selectedIndex = month-1;
-			selectedMonth = month;
+			updateDate = false;
 		}	
+
 	}
 
 	//weekday update
