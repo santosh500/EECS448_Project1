@@ -26,7 +26,8 @@ setInterval(clock, 1000);
  * are reached. When each of the three time markers reach the incrementation
  * limit, they are reset to 0. However, the hours are reset to a value 
  * depending on the time mode selected. The display features depend on 
- * the time mode selected and displays accordingly.
+ * the time mode selected and displays accordingly. Also calls the calendar
+ * display and calls functions on new days to update calendar function.
  *															(2)
  * <p>
  * @param  none
@@ -72,7 +73,6 @@ function clock()
 	}
 	
 
-	//document.getElementById('set_date').addEventListener('click', display_day);
 	display_day();
 }
 
@@ -480,32 +480,30 @@ function increment_day(){
 	{
 		month = 1;
 		day = 1;
-		update_date = true;
+		updateDate = true;
 	}
 	else if (day == 30 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
 	{
 		month++;
 		day = 1;
-		update_date = true;
+		updateDate = true;
 	}
 	else if (day == 31)
 	{
 		month++;
 		day = 1;
-		update_date = true;
+		updateDate = true;
 	}
 	else
 	{
 		day++;
-		update_date = true;
+		updateDate = true;
 	}
 
 }
 
 /**
- * Allows user to set desired day
- * <p>
- * With the various fields with input, and the set time button event occuring, the time is set to the user desired time. The various feilds are cleared to their initial values and the flashing stops.
+ * Allows user to set desired day and month
  * <p>
  * @pre set date button pushed
  * @post day update to new day
@@ -526,10 +524,10 @@ document.getElementById('set_date').addEventListener('click', function() {
  * @post select_month updated to new user choice
  */
 var selected_month = document.getElementById("select_month");
-var current_date = new Date();
-var month = current_date.getMonth()+1;
+var currentDate = new Date();
+var month = currentDate.getMonth()+1;
 for(var i=1; i<=12; i++) {
-	if (i == current_date.getMonth()+1){
+	if (i == currentDate.getMonth()+1){
 		var o12 = new Option(i);
 		o12.setAttribute("selected","selected");
 		select_month.add(o12);
@@ -548,10 +546,10 @@ for(var i=1; i<=12; i++) {
  * @post select_day updated to new user choice
  */
 var selected_day = document.getElementById("select_day");
-var day = current_date.getDate();
+var day = currentDate.getDate();
 for(var i=1; i<=31; i++) {
 
-	if (i == current_date.getDate()){
+	if (i == currentDate.getDate()){
 		var o31 = new Option(i);
 		o31.setAttribute("selected","selected");
 		select_day.add(o31);
@@ -569,20 +567,21 @@ for(var i=1; i<=31; i++) {
  * @param  month - Global variable keeping track of month
  *                                                       (2)
  */
-var update_date = false;
+var updateDate = false;
 function display_day()
 {	
 	//puts the dropdown menu at the updated date (once a new day rolls over)
 	for (i = 0; i < selected_day.options.length; i++) {
-		if (update_date) {
+		if (updateDate) {
 			selected_day.selectedIndex = day-1;
 		}	
 	}
 	for (i = 0; i < selected_month.options.length; i++) {
-		if (update_date) {
+		if (updateDate) {
 			selected_month.selectedIndex = month-1;
-			update_date = false;
+			updateDate = false;
 		}	
+
 	}
 
 	//weekday update
