@@ -21,7 +21,7 @@ var clockBegin = true;//fixes issue with starting at 1 second after the specifie
 
 //run the clock function every second.
 var clockInterval = setInterval(clock, 1000);
-var timerInterval = setInterval(timer, 1000);
+//var timerInterval = setInterval(timer, 1000);
 
 //clock running functions
 /**
@@ -41,6 +41,40 @@ var timerInterval = setInterval(timer, 1000);
  *                                                       (3)
  */
 function clock()
+{
+	if(clockToggle)
+		clockIncr();
+	else if(timerToggle)
+		timer();
+
+	if(document.getElementById('display_12hr').checked)
+	{
+		display_12hr_time(hours, minutes, seconds);
+	}
+	else
+	{
+		display_24hr_time(hours, minutes, seconds);
+	}
+
+	if(clockToggle)
+	{
+		if(document.getElementById('display_12hr').checked)
+		{
+			display_12hr_time(hours, minutes, seconds);
+		}
+		else
+		{
+			display_24hr_time(hours, minutes, seconds);
+		}
+	}
+	else if(timerToggle)
+		display_24hr_time(timer_hour, timer_min, timer_sec);
+
+	display_day();
+}
+
+
+function clockIncr()
 {
 	if(clockBegin){}//clock begins, make sure it doesn't increment a second immediately	
 	else
@@ -69,31 +103,33 @@ function clock()
 		reset_hours();
 		increment_day();
 	}
+}
 
-	if(document.getElementById('display_12hr').checked)
-	{
-		display_12hr_time(hours, minutes, seconds);
-	}
+function timer()
+{
+	
+	if(timerBegin){}
 	else
 	{
-		display_24hr_time(hours, minutes, seconds);
+		dec_timer_sec();
 	}
 
-	if(clockToggle)
+	if((timer_sec == -1) && !timerBegin)
 	{
-		if(document.getElementById('display_12hr').checked)
-		{
-			display_12hr_time(hours, minutes, seconds);
-		}
-		else
-		{
-			display_24hr_time(hours, minutes, seconds);
-		}
+		reset_timer_sec();
+	}
+	else if(timerBegin)
+	{
+		timerBegin = false;
 	}
 	
-
-	display_day();
+	if(timer_min == -1)
+	{
+		reset_timer_min();
+	}	
+	//display_24hr_timer(timer_hour, timer_min, timer_sec);
 }
+
 
 /**
  * Increment seconds variable by 1 to keep track of time          (1)
@@ -181,7 +217,7 @@ function reset_hours()
  * @param  seconds - Global variable keeping track of seconds
  *                                                       (3)
  */
-function display_12hr_time(hours, mintues, seconds)
+function display_12hr_time(hours, minutes, seconds)
 {
 	//variables for display '0' in front of hours, minutes, seconds
 	var second_zero_display;
@@ -257,7 +293,7 @@ function display_12hr_time(hours, mintues, seconds)
  * @param  seconds - Global variable keeping track of seconds
  *                                                       (3)
  */
-function display_24hr_time(hours, mintues, seconds)
+function display_24hr_time(hours, minutes, seconds)
 {
 	var second_zero_display;
 	var minute_zero_display;
@@ -1007,16 +1043,16 @@ function display_day()
 	}
 }
 
-function stopTimerDisplay()
+function stopDisplay()
 {
-	clearInterval(timerInterval);
+	clearInterval(clockInterval);
 }
 
 //used by stopwatch, timer, and set_time (to start display again if it is stopped by stopwatch or timer)
-function startTimerDisplay()
+function startDisplay()
 {
-	clearInterval(timerInterval);//if clock interval has been set already, then need to clear it first as not to stack executions with each interval
-	timerInterval = setInterval(timer, 1000);
+	clearInterval(clockInterval);//if clock interval has been set already, then need to clear it first as not to stack executions with each interval
+	clockInterval = setInterval(clock, 1000);
 }
 
 var timer_hour = 0;
@@ -1087,7 +1123,7 @@ document.getElementById('set_timer').addEventListener('click', function() {
 	timerBegin = true;//clock begins again, make sure it doesn't increment a second immediately
 	
 	
-	startTimerDisplay();
+	startDisplay();
 	document.getElementById('timer_start_stop_button').innerHTML = "Stop";
 	
 	//stop flashing
@@ -1095,6 +1131,7 @@ document.getElementById('set_timer').addEventListener('click', function() {
 	
 	//Reset the time display's display property after flashing is stopped
 	document.getElementById("time").style.display = '';
+	choose_ST_SW_TM(2);
 });
 
 
@@ -1103,13 +1140,13 @@ document.getElementById('timer_start_stop_button').addEventListener('click', fun
 	if(document.getElementById('timer_start_stop_button').innerHTML == "Start")
 	{
 		document.getElementById('timer_start_stop_button').innerHTML = "Stop";	
-		startTimerDisplay();
+		startDisplay();
 	}
 	else
 	{
 		document.getElementById('timer_start_stop_button').innerHTML = "Start";
 
-		stopTimerDisplay();
+		stopDisplay();
 	}
 });
 
@@ -1118,15 +1155,38 @@ document.getElementById('timer_reset_button').addEventListener('click', function
 	timerInit();
 	if(document.getElementById('timer_start_stop_button').innerHTML == "Start")
 	{
-		startTimerDisplay();
+		startDisplay();
 	}
 	document.getElementById('timer_start_stop_button').innerHTML = "Start";
-	setTimeout(stopTimerDisplay, 1000);
+	setTimeout(stopDisplay, 1000);
+
+
+
 });
 
 function timerInit()
 {
-    timer_hour = 0; timer_min = 0; timer_sec = 0;
+    //hours need to modify
+	timer_hour = parseInt(document.getElementById("select_timer_hour").value);
+	
+	//these are directly set
+	timer_min = parseInt(document.getElementById("select_timer_minute").value);
+	timer_sec = parseInt(document.getElementById("select_timer_second").value);
+
+	timerBegin = true;//clock begins again, make sure it doesn't increment a second immediately
+	
+	
+	startDisplay();
+	document.getElementById('timer_start_stop_button').innerHTML = "Stop";
+	
+	//stop flashing
+	clearInterval(flashing_handle);
+	
+	//Reset the time display's display property after flashing is stopped
+	document.getElementById("time").style.display = '';
+	choose_ST_SW_TM(2);
+
+
     timerBegin = true;
     //stop flashing
     clearInterval(flashing_handle);
@@ -1159,33 +1219,6 @@ function choose_ST_SW_TM(ST_SW_TM)
 }
 
 
-function timer()
-{
-	
-	if(timerBegin){
-
-	}
-	else
-	{
-		dec_timer_sec();
-	}
-
-	if((timer_sec == -1) && !timerBegin)
-	{
-		reset_timer_sec();
-	}
-	else if(timerBegin)
-	{
-		timerBegin = false;
-	}
-	
-	if(timer_min == -1)
-	{
-		reset_timer_min();
-	}	
-	display_24hr_timer(timer_hour, timer_min, timer_sec);
-}
-
 function dec_timer_sec()
 {
 	timer_sec--;
@@ -1205,7 +1238,7 @@ function reset_timer_sec()
 	}
 	else
 	{
-		stopTimerDisplay();
+		stopDisplay();
 	}
 }
 function dec_timer_min()
@@ -1224,44 +1257,4 @@ function reset_timer_min()
 function dec_timer_hour()
 {
 	timer_hour--;
-}
-
-function display_24hr_timer(hours, mintues, seconds)
-{
-	var second_zero_display;
-	var minute_zero_display;
-	var hour_zero_display;
-	
-	if(timer_sec < 10)
-	{
-		second_zero_display = "0";
-	}
-	else
-	{
-		second_zero_display = "";
-	}
-    
-	if(timer_min < 10)
-	{
-		minute_zero_display = "0";
-	}
-	else
-	{
-		minute_zero_display = "";
-	}
-	
-	if(timer_hour < 10)
-	{
-		hour_zero_display = "0";
-	}
-	else
-	{
-		hour_zero_display = "";
-	}
-	
-	document.getElementById("full-timer").innerHTML= 
-		hour_zero_display 	+ timer_hour + ":" + 
-		minute_zero_display + timer_min + ":" + 
-		second_zero_display + timer_sec;
-	
 }
