@@ -33,10 +33,49 @@
 				</select>	
 				<button type="button" id="set_time">Set Time</button>
 			</div>
-		
+
 		</div><!-- End of display time controls -->
+
+
+		<!-- Display Day of the Week-->
+		<div id="weekday_display">
+			<p id="weekday"><span id="full-weekday"></span></p>
+		</div>
+
+		<!-- Display Day/Month Controls -->
+		<div id = "daymonth_display">
+		
+			<!--Give calendar weekday when given input for calendar month/day for 2016-->
+			<div id="set_day_input">
+				Month: <select id="select_month"></select>
+				Day: <select id="select_day"></select>
+				<button type="button" id="set_date">Set Date</button>
+			</div><!-- End of day input controls -->
+
+		</div><!-- End of Day/Month -->
+
+		<div id='timer_display'>
+			<p id='timer'><span id='full-timer'></span></p>
+		</div>
+
+		<!-- TIMER Controls -->
+		<div id="timer_controls">	
 	
+			<!-- Set time -->
+			<div id="set_timer_input">
+				<select id="select_timer_hour"></select>
+				<select id="select_timer_minute"></select>
+				<select id="select_timer_second"></select>
+				<button type="button" id="set_timer">Set Timer</button>
+				<button type="button" id="timer_start_stop_button">Start</button>
+        		<button type="button" id="timer_reset_button">Reset</button>
+			</div>
+
+		</div><!-- End of display time controls -->
+
 	</div><!-- End of main display -->
+
+
 		
 	<script type="text/javascript" src="js/clock.js"></script>
 	</body>

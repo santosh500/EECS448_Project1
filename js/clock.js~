@@ -10,18 +10,8 @@ var hours=0;
 var minutes=0;
 var seconds=0;
 
-var timeBegin = true;
-var timerBegin = true;
-var clockToggle = true;
-var stopwatchToggle = false;
-var timerToggle = false;
-
-// Our variables
-var clockBegin = true;//fixes issue with starting at 1 second after the specified time
-
 //run the clock function every second.
-var clockInterval = setInterval(clock, 1000);
-//var timerInterval = setInterval(timer, 1000);
+setInterval(clock, 1000);
 
 //clock running functions
 /**
@@ -33,8 +23,7 @@ var clockInterval = setInterval(clock, 1000);
  * are reached. When each of the three time markers reach the incrementation
  * limit, they are reset to 0. However, the hours are reset to a value 
  * depending on the time mode selected. The display features depend on 
- * the time mode selected and displays accordingly. Also calls the calendar
- * display and calls functions on new days to update calendar function.
+ * the time mode selected and displays accordingly.
  *															(2)
  * <p>
  * @param  none
@@ -42,54 +31,12 @@ var clockInterval = setInterval(clock, 1000);
  */
 function clock()
 {
-	if(clockToggle)
-		clockIncr();
-	else if(timerToggle)
-		timer();
-
-	if(document.getElementById('display_12hr').checked)
-	{
-		display_12hr_time(hours, minutes, seconds);
-	}
-	else
-	{
-		display_24hr_time(hours, minutes, seconds);
-	}
-
-	if(clockToggle)
-	{
-		if(document.getElementById('display_12hr').checked)
-		{
-			display_12hr_time(hours, minutes, seconds);
-		}
-		else
-		{
-			display_24hr_time(hours, minutes, seconds);
-		}
-	}
-	else if(timerToggle)
-		display_24hr_time(timer_hour, timer_min, timer_sec);
-
-	display_day();
-}
-
-
-function clockIncr()
-{
-	if(clockBegin){}//clock begins, make sure it doesn't increment a second immediately	
-	else
-	{	
-		increment_second();
-	}
+	increment_second();
 	
-	if((seconds % 60) == 0 && !clockBegin)
+	if((seconds % 60) == 0)
 	{
 		increment_minute();
 		reset_seconds();
-	}
-	else if(clockBegin)
-	{
-		clockBegin = false;
 	}
 	
 	if(minutes == 60)
@@ -103,45 +50,20 @@ function clockIncr()
 		reset_hours();
 		increment_day();
 	}
-}
 
-/**
- * Gives the clock a timer function that replaces the clock    (1)
- * <p>
- * The timer is operated by decrementing the seconds.
- * When the seconds reach -1 the timer will reset the seconds to 59,
- * while decrementing the correct amount from minutes or hours if need be.
- * 
- *															(2)
- * <p>
- * @param  none
- *                                                       (3)
- */
-function timer()
-{
-	
-	if(timerBegin){}
+	if(document.getElementById('display_12hr').checked)
+	{
+		display_12hr_time(hours, minutes, seconds);
+	}
 	else
 	{
-		dec_timer_sec();
-	}
-
-	if((timer_sec == -1) && !timerBegin)
-	{
-		reset_timer_sec();
-	}
-	else if(timerBegin)
-	{
-		timerBegin = false;
+		display_24hr_time(hours, minutes, seconds);
 	}
 	
-	if(timer_min == -1)
-	{
-		reset_timer_min();
-	}	
-	//display_24hr_timer(timer_hour, timer_min, timer_sec);
-}
 
+	//document.getElementById('set_date').addEventListener('click', display_day);
+	display_day();
+}
 
 /**
  * Increment seconds variable by 1 to keep track of time          (1)
@@ -229,7 +151,7 @@ function reset_hours()
  * @param  seconds - Global variable keeping track of seconds
  *                                                       (3)
  */
-function display_12hr_time(hours, minutes, seconds)
+function display_12hr_time(hours, mintues, seconds)
 {
 	//variables for display '0' in front of hours, minutes, seconds
 	var second_zero_display;
@@ -305,7 +227,7 @@ function display_12hr_time(hours, minutes, seconds)
  * @param  seconds - Global variable keeping track of seconds
  *                                                       (3)
  */
-function display_24hr_time(hours, minutes, seconds)
+function display_24hr_time(hours, mintues, seconds)
 {
 	var second_zero_display;
 	var minute_zero_display;
@@ -483,8 +405,6 @@ document.getElementById('set_time').addEventListener('click', function() {
 		hours = slected_hours + 12;
 	}
 	
-	clockBegin = true;//clock begins again, make sure it doesn't increment a second immediately
-	
 	//clear drop downs and set to default
 	var select_hour = document.getElementById("select_hour");
 	var length = select_hour.options.length;
@@ -528,7 +448,6 @@ flashing_handle = setInterval(function() {
 
 
 
-
 /**
  * Increments day/month if applicable  (1)
  * <p>
@@ -540,37 +459,37 @@ flashing_handle = setInterval(function() {
 function increment_day(){
 	
 	if (day == 31 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
-	{}	//do nothing
+	{	//do nothing
+	}
 	else if (month == 2 && day == 30)
-	{}	//do nothing
+	{	//do nothing
+	}
 	else if (month == 12 && day == 31)
 	{
 		month = 1;
 		day = 1;
-		updateDate = true;
 	}
 	else if (day == 30 && (month == 2 || month == 4 || month == 6 || month == 9 || month == 11))
 	{
-		month++;
+		month++;;
 		day = 1;
-		updateDate = true;
 	}
 	else if (day == 31)
 	{
 		month++;
 		day = 1;
-		updateDate = true;
 	}
 	else
 	{
 		day++;
-		updateDate = true;
 	}
 
 }
 
 /**
- * Allows user to set desired day and month
+ * Allows user to set desired day
+ * <p>
+ * With the various fields with input, and the set time button event occuring, the time is set to the user desired time. The various feilds are cleared to their initial values and the flashing stops.
  * <p>
  * @pre set date button pushed
  * @post day update to new day
@@ -579,7 +498,30 @@ document.getElementById('set_date').addEventListener('click', function() {
 
 	month = parseInt(document.getElementById("select_month").value);
 	day = parseInt(document.getElementById("select_day").value);
-
+	
+	if (day == 31 || (day == 30 && month == 2))
+	{
+		if (month == 2 || month == 4 || month == 6 || month == 9 || month == 11)
+		{
+			var select_month = document.getElementById("select_month");
+			for(var i=1; i < select_month.options.length; i++) {
+				select_month[i].selected = select_month[i].defaultSelected;
+			}
+			var select_day = document.getElementById("select_day");
+			for(var i=1; i < select_day.options.length; i++) {
+				select_day[i].selected = select_day[i].defaultSelected;
+			}
+			document.getElementById("full-weekday").innerHTML= "Invalid date, reset date";
+			day = currentDate().getDate();
+			month = currentDate.getMonth()+1;
+		}
+	}
+	else 
+	{
+		selectedDay = day;
+		selectedMonth = month;
+	}
+	
 });
 
 /**
@@ -593,6 +535,7 @@ document.getElementById('set_date').addEventListener('click', function() {
 var selected_month = document.getElementById("select_month");
 var currentDate = new Date();
 var month = currentDate.getMonth()+1;
+var selectedMonth = month;
 for(var i=1; i<=12; i++) {
 	if (i == currentDate.getMonth()+1){
 		var o12 = new Option(i);
@@ -614,6 +557,7 @@ for(var i=1; i<=12; i++) {
  */
 var selected_day = document.getElementById("select_day");
 var day = currentDate.getDate();
+var selectedDay = day;
 for(var i=1; i<=31; i++) {
 
 	if (i == currentDate.getDate()){
@@ -634,24 +578,21 @@ for(var i=1; i<=31; i++) {
  * @param  month - Global variable keeping track of month
  *                                                       (2)
  */
-var updateDate = false;
 function display_day()
 {	
-	//puts the dropdown menu at the updated date (once a new day rolls over)
 	for (i = 0; i < selected_day.options.length; i++) {
-		if (updateDate) {
+		if (day != selectedDay) {
 			selected_day.selectedIndex = day-1;
+			selectedDay = day;
 		}	
-	}
+	}	
 	for (i = 0; i < selected_month.options.length; i++) {
-		if (updateDate) {
+		if (month != selectedMonth) {
 			selected_month.selectedIndex = month-1;
-			updateDate = false;
+			selectedMonth = month;
 		}	
-
 	}
 
-	//weekday update
 	switch (month)
 	{
 		case 1: //January
@@ -680,7 +621,7 @@ function display_day()
 				case 31:
 					if (month == 4 && day == 31)
 					{
-						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date";
+						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date, reset date";
 					}
 					else
 					{
@@ -966,7 +907,7 @@ function display_day()
 				case 10:
 				case 17:
 				case 24:
-				case 31:
+				//case 31:
 					if (day == 31 && month == 6)
 					{
 						document.getElementById("full-weekday").innerHTML= "Invalid date, reset date";
@@ -1053,309 +994,4 @@ function display_day()
 			}
 			break;
 	}
-}
-
-/**
-  * used by stopwatch, timer, and set_time (to stop display for the stopwatch or timer)
-  */
-function stopDisplay()
-{
-	clearInterval(clockInterval);
-}
-
-/**
-  * used by stopwatch, timer, and set_time (to start display again if it is stopped by stopwatch or timer)
-  */
-function startDisplay()
-{
-	clearInterval(clockInterval);//if clock interval has been set already, then need to clear it first as not to stack executions with each interval
-	clockInterval = setInterval(clock, 1000);
-}
-
-var timer_hour = 0;
-var timer_min = 0;
-var timer_sec = 0;
-
-/**
- * Obtains the hours value when set timer functionality is used 
- * <p>
- * Gives user options to set the hours between 0-99
- * <p>
- * @pre drop down value changes
- * @post select_timer_hour updated to new user choice
- */
-var select_timer_hour = document.getElementById("select_timer_hour");
-for(var i=0; i<=99; i++) {
-	
-		select_timer_hour.add(new Option(i));
-	
-}
-
-/**
- * Obtains the minutes value when set timer functionality is used 
- * <p>
- * The list is first populated using a for loop. Based on the option chosen, the select_timer_minute variable is assigned the value chosen.
- * <p>
- * @pre drop down value changes
- * @post select_timer_minute updated to new user choice
- */
-var select_timer_minute = document.getElementById("select_timer_minute");
-for(var i=0; i<=59; i++) 
-{
-	if(i < 10)
-	{
-		if(i == 0)
-		{
-			var o1 = new Option(("0"+i));
-			o1.setAttribute("selected","selected");
-			select_timer_minute.add(o1);
-		}
-		else
-		{
-			i = "0" + i;
-			select_timer_minute.add(new Option(i));
-		}
-	}
-	else
-	{
-		select_timer_minute.add(new Option(i));
-	}
-}
-
-/**
- * Obtains the seconds value when set timer functionality is used 
- * <p>
- * The list is first populated using a for loop. Based on the option chosen, the select_timer_second variable is assigned the value chosen.
- * <p>
- * @pre drop down value changes
- * @post select_timer_second updated to new user choice
- */
-var select_timer_second = document.getElementById("select_timer_second");
-for(var i=0; i<=59; i++) {
-	if(i < 10)
-	{
-		if(i == 0)
-		{
-			var o1 = new Option(("0"+i));
-			o1.setAttribute("selected","selected");
-			select_timer_second.add(o1);
-		}
-		else
-		{
-			i = "0" + i;
-			select_timer_second.add(new Option(i));
-		}
-	}
-	else
-	{
-		select_timer_second.add(new Option(i));
-	}
-}
-
-/**
- * Allows user to set desired timer time
- * <p>
- * With the various fields with input, and the set timer button event occuring, the timer is set to the user desired time. The values of the various feilds are kept
- * <p>
- * @pre set timer button pushed
- * @post timer display update to new time
- */
-document.getElementById('set_timer').addEventListener('click', function() {
-	
-	timer_hour = parseInt(document.getElementById("select_timer_hour").value);
-	timer_min = parseInt(document.getElementById("select_timer_minute").value);
-	timer_sec = parseInt(document.getElementById("select_timer_second").value);
-
-	timerBegin = true;
-	
-	
-	startDisplay();
-	document.getElementById('timer_start_stop_button').innerHTML = "Stop";
-	
-	//stop flashing
-	clearInterval(flashing_handle);
-	
-	//Reset the time display's display property after flashing is stopped
-	document.getElementById("time").style.display = '';
-	choose_ST_SW_TM(2);
-});
-
-/**
- * Allows user to start and stop the timer
- * <p>
- * A start/stop button that allows the users to stop and stop the timer as desired
- * <p>
- * @pre start/stop button pushed
- * @post timer display starts/stops
- */
-document.getElementById('timer_start_stop_button').addEventListener('click', function()
-{
-	if(document.getElementById('timer_start_stop_button').innerHTML == "Start")
-	{
-		document.getElementById('timer_start_stop_button').innerHTML = "Stop";	
-		startDisplay();
-	}
-	else
-	{
-		document.getElementById('timer_start_stop_button').innerHTML = "Start";
-
-		stopDisplay();
-	}
-});
-
-/**
- * Resets timer to the time specified by users earlier. Stops the timer
- * <p>
- * A reset button that allows the users to reset the timer
- * <p>
- * @pre reset button pushed
- * @post timer changes to time specified by users
- */
-document.getElementById('timer_reset_button').addEventListener('click', function()
-{
-	timerInit();
-	if(document.getElementById('timer_start_stop_button').innerHTML == "Start")
-	{
-		startDisplay();
-	}
-	document.getElementById('timer_start_stop_button').innerHTML = "Start";
-	setTimeout(stopDisplay, 1000);
-
-
-
-});
-
-/**
- *Function that sets the time to the values specified by users. Used in the reset button
- */
-function timerInit()
-{
-    //hours need to modify
-	timer_hour = parseInt(document.getElementById("select_timer_hour").value);
-	
-	//these are directly set
-	timer_min = parseInt(document.getElementById("select_timer_minute").value);
-	timer_sec = parseInt(document.getElementById("select_timer_second").value);
-
-	timerBegin = true;//clock begins again, make sure it doesn't increment a second immediately
-	
-	
-	startDisplay();
-	document.getElementById('timer_start_stop_button').innerHTML = "Stop";
-	
-	//stop flashing
-	clearInterval(flashing_handle);
-	
-	//Reset the time display's display property after flashing is stopped
-	document.getElementById("time").style.display = '';
-	choose_ST_SW_TM(2);
-
-
-    timerBegin = true;
-    //stop flashing
-    clearInterval(flashing_handle);
-
-    //Reset the time display's display property after flashing is stopped
-    document.getElementById("time").style.display = '';
-}
-
-/**
- * Toggles between the clock, stopwatch, and timer
- * @param ST_SW_TM - an int that toggles which function is used on the clock display
- */
-function choose_ST_SW_TM(ST_SW_TM)
-{
-	if(ST_SW_TM == 0)//set_time, disable stopwatch and timer
-	{
-		clockToggle = true;		stopwatchToggle = false;	timerToggle = false;
-
-		//turn off stopwatch and timer
-                document.getElementById('stopwatch_start_stop_button').innerHTML = "Start"
-	}
-	else if(ST_SW_TM == 1)//stopwatch, disable set_time and timer
-	{
-		clockToggle = false;	stopwatchToggle = true;		timerToggle = false;
-
-		//turn off timer
-	}
-	else//if(ST_SW_TM == 2)//timer, disable set_time and stopwatch
-	{
-		clockToggle = false;	stopwatchToggle = false;	timerToggle = true;
-
-		//turn off stopwatch
-	}
-}
-
-/**
- * Decrement timer_sec variable by 1 to keep track of timer          (1)
- * <p>                                                 (3)
- * @pre call from timer function
- * @post timer_sec decremented by 1
- */
-function dec_timer_sec()
-{
-	timer_sec--;
-}
-/**
- * Reset Seconds to 59                                          (1)
- * <p>
- * This function is called when the seconds reach 0 seconds. The next value is -1 which corresponds to 59 (2)
- * <p>                                                 (3)
- * @pre call from timer function
- * @post seconds reset to 59
- */
-function reset_timer_sec()
-{
-	if(timer_min > 0)
-	{
-		dec_timer_min();
-		timer_sec = 59;
-	}
-	else if(timer_hour > 0)
-	{
-		dec_timer_hour();
-		timer_min = 59;
-		timer_sec = 59;
-	}
-	else
-	{
-		stopDisplay();
-	}
-}
-/**
- * Decrement timer_min variable by 1 to keep track of timer         (1)
- * <p>                                                 (3)
- * @pre call from timer function
- * @post timer_min decremented by 1
- */
-function dec_timer_min()
-{
-	timer_min--;
-}
-/**
- * Reset timer_min to 59                                          (1)
- * <p>
- * This function is called when the timer_min reach 0 minutes. The next value is -1 which corresponds to 59 (2)
- * <p>                                                 (3)
- * @pre call from timer function
- * @post timer_min reset to 59, timer_sec reset to 59
- */
-function reset_timer_min()
-{
-	if(timer_hour > 0)
-	{
-		dec_timer_hour();
-		timer_min = 59;
-		timer_sec = 59;
-	}
-}
-/**
- * Decrement timer_hour variable by 1 to keep track of timer         (1)
- * <p>                                                 (3)
- * @pre call from timer function
- * @post timer_hour decremented by 1
- */
-function dec_timer_hour()
-{
-	timer_hour--;
 }
