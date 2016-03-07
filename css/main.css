@@ -165,4 +165,22 @@ div#daymonth_display{
     padding-top: 20px;
 }
 
+div#timer_controls
+{
+	position: absolute;
+	width: 705px;
+	height: 150px;
+    top: 900px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size:25px;
+    text-align: center;
+    padding-top: 20px;
+}
 
+div#timer_display{
+	position: absolute;
+	width: 705px;
+	height: 150px;
+    top: 800px;
+ 	left: 0;
+}

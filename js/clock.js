@@ -10,11 +10,18 @@ var hours=0;
 var minutes=0;
 var seconds=0;
 
+var timeBegin = true;
+var timerBegin = true;
+var clockToggle = true;
+var stopwatchToggle = false;
+var timerToggle = false;
+
 // Our variables
 var clockBegin = true;//fixes issue with starting at 1 second after the specified time
 
 //run the clock function every second.
-setInterval(clock, 1000);
+var clockInterval = setInterval(clock, 1000);
+var timerInterval = setInterval(timer, 1000);
 
 //clock running functions
 /**
@@ -70,6 +77,18 @@ function clock()
 	else
 	{
 		display_24hr_time(hours, minutes, seconds);
+	}
+
+	if(clockToggle)
+	{
+		if(document.getElementById('display_12hr').checked)
+		{
+			display_12hr_time(hours, minutes, seconds);
+		}
+		else
+		{
+			display_24hr_time(hours, minutes, seconds);
+		}
 	}
 	
 
@@ -986,4 +1005,263 @@ function display_day()
 			}
 			break;
 	}
+}
+
+function stopTimerDisplay()
+{
+	clearInterval(timerInterval);
+}
+
+//used by stopwatch, timer, and set_time (to start display again if it is stopped by stopwatch or timer)
+function startTimerDisplay()
+{
+	clearInterval(timerInterval);//if clock interval has been set already, then need to clear it first as not to stack executions with each interval
+	timerInterval = setInterval(timer, 1000);
+}
+
+var timer_hour = 0;
+var timer_min = 0;
+var timer_sec = 0;
+
+var select_timer_hour = document.getElementById("select_timer_hour");
+for(var i=0; i<=99; i++) {
+	
+		select_timer_hour.add(new Option(i));
+	
+}
+
+var select_timer_minute = document.getElementById("select_timer_minute");
+for(var i=0; i<=59; i++) 
+{
+	if(i < 10)
+	{
+		if(i == 0)
+		{
+			var o1 = new Option(("0"+i));
+			o1.setAttribute("selected","selected");
+			select_timer_minute.add(o1);
+		}
+		else
+		{
+			i = "0" + i;
+			select_timer_minute.add(new Option(i));
+		}
+	}
+	else
+	{
+		select_timer_minute.add(new Option(i));
+	}
+}
+
+
+var select_timer_second = document.getElementById("select_timer_second");
+for(var i=0; i<=59; i++) {
+	if(i < 10)
+	{
+		if(i == 0)
+		{
+			var o1 = new Option(("0"+i));
+			o1.setAttribute("selected","selected");
+			select_timer_second.add(o1);
+		}
+		else
+		{
+			i = "0" + i;
+			select_timer_second.add(new Option(i));
+		}
+	}
+	else
+	{
+		select_timer_second.add(new Option(i));
+	}
+}
+
+document.getElementById('set_timer').addEventListener('click', function() {
+	//hours need to modify
+	timer_hour = parseInt(document.getElementById("select_timer_hour").value);
+	
+	//these are directly set
+	timer_min = parseInt(document.getElementById("select_timer_minute").value);
+	timer_sec = parseInt(document.getElementById("select_timer_second").value);
+
+	timerBegin = true;//clock begins again, make sure it doesn't increment a second immediately
+	
+	
+	startTimerDisplay();
+	document.getElementById('timer_start_stop_button').innerHTML = "Stop";
+	
+	//stop flashing
+	clearInterval(flashing_handle);
+	
+	//Reset the time display's display property after flashing is stopped
+	document.getElementById("time").style.display = '';
+});
+
+
+document.getElementById('timer_start_stop_button').addEventListener('click', function()
+{
+	if(document.getElementById('timer_start_stop_button').innerHTML == "Start")
+	{
+		document.getElementById('timer_start_stop_button').innerHTML = "Stop";	
+		startTimerDisplay();
+	}
+	else
+	{
+		document.getElementById('timer_start_stop_button').innerHTML = "Start";
+
+		stopTimerDisplay();
+	}
+});
+
+document.getElementById('timer_reset_button').addEventListener('click', function()
+{
+	timerInit();
+	if(document.getElementById('timer_start_stop_button').innerHTML == "Start")
+	{
+		startTimerDisplay();
+	}
+	document.getElementById('timer_start_stop_button').innerHTML = "Start";
+	setTimeout(stopTimerDisplay, 1000);
+});
+
+function timerInit()
+{
+    timer_hour = 0; timer_min = 0; timer_sec = 0;
+    timerBegin = true;
+    //stop flashing
+    clearInterval(flashing_handle);
+
+    //Reset the time display's display property after flashing is stopped
+    document.getElementById("time").style.display = '';
+}
+
+function choose_ST_SW_TM(ST_SW_TM)
+{
+	if(ST_SW_TM == 0)//set_time, disable stopwatch and timer
+	{
+		clockToggle = true;		stopwatchToggle = false;	timerToggle = false;
+
+		//turn off stopwatch and timer
+                document.getElementById('stopwatch_start_stop_button').innerHTML = "Start"
+	}
+	else if(ST_SW_TM == 1)//stopwatch, disable set_time and timer
+	{
+		clockToggle = false;	stopwatchToggle = true;		timerToggle = false;
+
+		//turn off timer
+	}
+	else//if(ST_SW_TM == 2)//timer, disable set_time and stopwatch
+	{
+		clockToggle = false;	stopwatchToggle = false;	timerToggle = true;
+
+		//turn off stopwatch
+	}
+}
+
+
+function timer()
+{
+	
+	if(timerBegin){
+
+	}
+	else
+	{
+		dec_timer_sec();
+	}
+
+	if((timer_sec == -1) && !timerBegin)
+	{
+		reset_timer_sec();
+	}
+	else if(timerBegin)
+	{
+		timerBegin = false;
+	}
+	
+	if(timer_min == -1)
+	{
+		reset_timer_min();
+	}	
+	display_24hr_timer(timer_hour, timer_min, timer_sec);
+}
+
+function dec_timer_sec()
+{
+	timer_sec--;
+}
+function reset_timer_sec()
+{
+	if(timer_min > 0)
+	{
+		dec_timer_min();
+		timer_sec = 59;
+	}
+	else if(timer_hour > 0)
+	{
+		dec_timer_hour();
+		timer_min = 59;
+		timer_sec = 59;
+	}
+	else
+	{
+		stopTimerDisplay();
+	}
+}
+function dec_timer_min()
+{
+	timer_min--;
+}
+function reset_timer_min()
+{
+	if(timer_hour > 0)
+	{
+		dec_timer_hour();
+		timer_min = 59;
+		timer_sec = 59;
+	}
+}
+function dec_timer_hour()
+{
+	timer_hour--;
+}
+
+function display_24hr_timer(hours, mintues, seconds)
+{
+	var second_zero_display;
+	var minute_zero_display;
+	var hour_zero_display;
+	
+	if(timer_sec < 10)
+	{
+		second_zero_display = "0";
+	}
+	else
+	{
+		second_zero_display = "";
+	}
+    
+	if(timer_min < 10)
+	{
+		minute_zero_display = "0";
+	}
+	else
+	{
+		minute_zero_display = "";
+	}
+	
+	if(timer_hour < 10)
+	{
+		hour_zero_display = "0";
+	}
+	else
+	{
+		hour_zero_display = "";
+	}
+	
+	document.getElementById("full-timer").innerHTML= 
+		hour_zero_display 	+ timer_hour + ":" + 
+		minute_zero_display + timer_min + ":" + 
+		second_zero_display + timer_sec;
+	
 }
