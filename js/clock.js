@@ -105,6 +105,18 @@ function clockIncr()
 	}
 }
 
+/**
+ * Gives the clock a timer function that replaces the clock    (1)
+ * <p>
+ * The timer is operated by decrementing the seconds.
+ * When the seconds reach -1 the timer will reset the seconds to 59,
+ * while decrementing the correct amount from minutes or hours if need be.
+ * 
+ *															(2)
+ * <p>
+ * @param  none
+ *                                                       (3)
+ */
 function timer()
 {
 	
@@ -1043,12 +1055,17 @@ function display_day()
 	}
 }
 
+/**
+  * used by stopwatch, timer, and set_time (to stop display for the stopwatch or timer)
+  */
 function stopDisplay()
 {
 	clearInterval(clockInterval);
 }
 
-//used by stopwatch, timer, and set_time (to start display again if it is stopped by stopwatch or timer)
+/**
+  * used by stopwatch, timer, and set_time (to start display again if it is stopped by stopwatch or timer)
+  */
 function startDisplay()
 {
 	clearInterval(clockInterval);//if clock interval has been set already, then need to clear it first as not to stack executions with each interval
@@ -1059,6 +1076,14 @@ var timer_hour = 0;
 var timer_min = 0;
 var timer_sec = 0;
 
+/**
+ * Obtains the hours value when set timer functionality is used 
+ * <p>
+ * Gives user options to set the hours between 0-99
+ * <p>
+ * @pre drop down value changes
+ * @post select_timer_hour updated to new user choice
+ */
 var select_timer_hour = document.getElementById("select_timer_hour");
 for(var i=0; i<=99; i++) {
 	
@@ -1066,6 +1091,14 @@ for(var i=0; i<=99; i++) {
 	
 }
 
+/**
+ * Obtains the minutes value when set timer functionality is used 
+ * <p>
+ * The list is first populated using a for loop. Based on the option chosen, the select_timer_minute variable is assigned the value chosen.
+ * <p>
+ * @pre drop down value changes
+ * @post select_timer_minute updated to new user choice
+ */
 var select_timer_minute = document.getElementById("select_timer_minute");
 for(var i=0; i<=59; i++) 
 {
@@ -1089,7 +1122,14 @@ for(var i=0; i<=59; i++)
 	}
 }
 
-
+/**
+ * Obtains the seconds value when set timer functionality is used 
+ * <p>
+ * The list is first populated using a for loop. Based on the option chosen, the select_timer_second variable is assigned the value chosen.
+ * <p>
+ * @pre drop down value changes
+ * @post select_timer_second updated to new user choice
+ */
 var select_timer_second = document.getElementById("select_timer_second");
 for(var i=0; i<=59; i++) {
 	if(i < 10)
@@ -1112,15 +1152,21 @@ for(var i=0; i<=59; i++) {
 	}
 }
 
+/**
+ * Allows user to set desired timer time
+ * <p>
+ * With the various fields with input, and the set timer button event occuring, the timer is set to the user desired time. The values of the various feilds are kept
+ * <p>
+ * @pre set timer button pushed
+ * @post timer display update to new time
+ */
 document.getElementById('set_timer').addEventListener('click', function() {
-	//hours need to modify
-	timer_hour = parseInt(document.getElementById("select_timer_hour").value);
 	
-	//these are directly set
+	timer_hour = parseInt(document.getElementById("select_timer_hour").value);
 	timer_min = parseInt(document.getElementById("select_timer_minute").value);
 	timer_sec = parseInt(document.getElementById("select_timer_second").value);
 
-	timerBegin = true;//clock begins again, make sure it doesn't increment a second immediately
+	timerBegin = true;
 	
 	
 	startDisplay();
@@ -1134,7 +1180,14 @@ document.getElementById('set_timer').addEventListener('click', function() {
 	choose_ST_SW_TM(2);
 });
 
-
+/**
+ * Allows user to start and stop the timer
+ * <p>
+ * A start/stop button that allows the users to stop and stop the timer as desired
+ * <p>
+ * @pre start/stop button pushed
+ * @post timer display starts/stops
+ */
 document.getElementById('timer_start_stop_button').addEventListener('click', function()
 {
 	if(document.getElementById('timer_start_stop_button').innerHTML == "Start")
@@ -1150,6 +1203,14 @@ document.getElementById('timer_start_stop_button').addEventListener('click', fun
 	}
 });
 
+/**
+ * Resets timer to the time specified by users earlier. Stops the timer
+ * <p>
+ * A reset button that allows the users to reset the timer
+ * <p>
+ * @pre reset button pushed
+ * @post timer changes to time specified by users
+ */
 document.getElementById('timer_reset_button').addEventListener('click', function()
 {
 	timerInit();
@@ -1164,6 +1225,9 @@ document.getElementById('timer_reset_button').addEventListener('click', function
 
 });
 
+/**
+ *Function that sets the time to the values specified by users. Used in the reset button
+ */
 function timerInit()
 {
     //hours need to modify
@@ -1195,6 +1259,10 @@ function timerInit()
     document.getElementById("time").style.display = '';
 }
 
+/**
+ * Toggles between the clock, stopwatch, and timer
+ * @param ST_SW_TM - an int that toggles which function is used on the clock display
+ */
 function choose_ST_SW_TM(ST_SW_TM)
 {
 	if(ST_SW_TM == 0)//set_time, disable stopwatch and timer
@@ -1218,11 +1286,24 @@ function choose_ST_SW_TM(ST_SW_TM)
 	}
 }
 
-
+/**
+ * Decrement timer_sec variable by 1 to keep track of timer          (1)
+ * <p>                                                 (3)
+ * @pre call from timer function
+ * @post timer_sec decremented by 1
+ */
 function dec_timer_sec()
 {
 	timer_sec--;
 }
+/**
+ * Reset Seconds to 59                                          (1)
+ * <p>
+ * This function is called when the seconds reach 0 seconds. The next value is -1 which corresponds to 59 (2)
+ * <p>                                                 (3)
+ * @pre call from timer function
+ * @post seconds reset to 59
+ */
 function reset_timer_sec()
 {
 	if(timer_min > 0)
@@ -1241,10 +1322,24 @@ function reset_timer_sec()
 		stopDisplay();
 	}
 }
+/**
+ * Decrement timer_min variable by 1 to keep track of timer         (1)
+ * <p>                                                 (3)
+ * @pre call from timer function
+ * @post timer_min decremented by 1
+ */
 function dec_timer_min()
 {
 	timer_min--;
 }
+/**
+ * Reset timer_min to 59                                          (1)
+ * <p>
+ * This function is called when the timer_min reach 0 minutes. The next value is -1 which corresponds to 59 (2)
+ * <p>                                                 (3)
+ * @pre call from timer function
+ * @post timer_min reset to 59, timer_sec reset to 59
+ */
 function reset_timer_min()
 {
 	if(timer_hour > 0)
@@ -1254,6 +1349,12 @@ function reset_timer_min()
 		timer_sec = 59;
 	}
 }
+/**
+ * Decrement timer_hour variable by 1 to keep track of timer         (1)
+ * <p>                                                 (3)
+ * @pre call from timer function
+ * @post timer_hour decremented by 1
+ */
 function dec_timer_hour()
 {
 	timer_hour--;
