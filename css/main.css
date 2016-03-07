@@ -165,6 +165,7 @@ div#daymonth_display{
     padding-top: 20px;
 }
 
+/* Timer controls*/
 div#timer_controls
 {
 	position: absolute;
@@ -177,6 +178,7 @@ div#timer_controls
     padding-top: 20px;
 }
 
+/* Timer Display */
 div#timer_display{
 	position: absolute;
 	width: 705px;
